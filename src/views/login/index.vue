@@ -1,29 +1,37 @@
 <template>
   <div id="my_login">
-    <div id="content">
-      <div style="color: red">test</div>
+    <div class="content">
+      <component :is="loginform"></component>
     </div>
   </div>
 </template>
 
 
 <script>
+
 export default {
   name: "Login",
   created() {
-    console.log(this.$route.path.indexOf("login"))
-  }
+
+  },
+  computed:{
+    loginform(){
+      return () => import('./loginForm')
+    }
+  },
 }
 </script>
 
 <style scoped lang="less">
-.my_login {
+#my_login {
   height: 100vh;
-  background: linear-gradient(0deg,#ffffff,#00ffff);
   display: flex;
-  .content{
-    width: 500px;
-    height: 300px;
+  .content {
+    background:#ffffff;
+    height: 100vh;
+    width: 100vw;
+    border-radius: 15px;
+    position: relative;
   }
 }
 

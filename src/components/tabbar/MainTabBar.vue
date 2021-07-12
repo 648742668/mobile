@@ -16,9 +16,9 @@
 <script>
 
     export default {
-        name: "MainTabBar",
-        components:{
 
+      name: "MainTabBar",
+        components:{
         },
         data(){
             return {
@@ -35,6 +35,6 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 
 </style>

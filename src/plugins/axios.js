@@ -2,7 +2,7 @@
 
 import Vue from 'vue';
 import axios from "axios";
-import {Loading, Notification} from "element-ui";
+import { Notify } from 'vant';
 import store from '@/store'
 import qs from 'qs'
 import {BASE_URL} from "../config/config";
@@ -24,9 +24,9 @@ const _axios = axios.create(config);
 _axios.interceptors.request.use(
     function (config) {
       // Do something before request is sent
-      if (store.getters.GET_TOKEN){
-        config.headers['token'] = store.getters.GET_TOKEN
-      }
+      // if (store.getters.GET_TOKEN){
+      //   config.headers['token'] = store.getters.GET_TOKEN
+      // }
       //重新定义数组序列化
       config.paramsSerializer = (params) =>{
         return qs.stringify(params,{arrayFormat: 'repeat'})
@@ -81,19 +81,13 @@ const request = (url, method, params, callback) => {
   }
 
   _axios.request(myconfig).then(response => {
-    if (response.data.code === 200) {
+    if (response.data.code === 20000) {
       callback(response.data)
     } else {
-      Notification.error({
-        title: '错误',
-        message: response.data.message
-      })
+      Notify(response.data.message)
     }
   }).catch(error => {
-    Notification.error({
-      title: '错误',
-      message: error
-    })
+    Notify(err)
   }).finally(() => {
     myloading.close()
   })
@@ -104,16 +98,13 @@ Vue.prototype.request = request
 
 Vue.prototype.get = (url, params, callback) => {
   request(url, 'get', params, response =>{
-    callback(response.obj)
+    callback(response.data)
   })
 }
 
 Vue.prototype.post = (url, params, callback) => {
   request(url, 'post', params,response =>{
-    Notification.success({
-      title: '成功',
-      message: response.message
-    })
-    callback(response.obj)
+    Notify(response.message)
+    callback(response.data)
   })
 }

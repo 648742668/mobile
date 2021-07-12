@@ -1,16 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path:'/login',
-    name:'Login',
-    //登录界面路径
-    component: () => import('@/views/login')
-  },
   {
     path: '/',
     name: 'Index',
@@ -64,6 +59,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/me/index')
       },
     ]
+  },{
+    path:'/login',
+    name:'Login',
+    //登录界面路径
+    component: () => import('@/views/login')
   },
 ]
 
@@ -72,5 +72,15 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') {
+    next()
+    return
+  }
+  if (store.getters.GET_TOKEN) {
+    next()
+    return
+  }
+  next('/login')
+})
 export default router

@@ -5,15 +5,16 @@
           v-model="password"
           :type="passwordType"
           :placeholder="placeholder"
+          round
+          @input="$emit('input',password)"
           clearable
-          :rules="[{required: true, message: '请填写密码' }]">
-        <template slot="left-icon" style="width: 20px">
+          :rules="[{required: true, message: '请填写密码' , trigger: 'blur'}]">
+        <template slot="left-icon">
           <van-image
-              style="width: 50px;height: 20px"
+              style="width: 25px;margin-right: 20px"
               :src="img"
           @click.stop="switchPasswordType">
           </van-image>
-
         </template>
       </van-field>
     </template>

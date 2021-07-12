@@ -53,11 +53,7 @@ _axios.interceptors.response.use(
 );
 
 const request = (url, method, params, callback) => {
-  const myloading = Loading.service({
-    text: "拼命加载中",
-    // 前三个就是颜色 最后一位为透明度
-    background: 'rgba(255,255,255,0.7)'
-  })
+
 
   const myconfig = {
     //前端后端通讯的接口
@@ -89,7 +85,6 @@ const request = (url, method, params, callback) => {
   }).catch(error => {
     Notify(err)
   }).finally(() => {
-    myloading.close()
   })
 }
 

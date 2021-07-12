@@ -12,8 +12,9 @@
             MainTabBar
         },
         computed: {
-            isShowMainBar() {
-                return this.$route.path.indexOf("detail") <= -1
+          isShowMainBar() {
+
+                return this.$route.path.indexOf("login") <= -1
             }
         }
 

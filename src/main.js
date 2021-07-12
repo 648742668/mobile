@@ -5,9 +5,11 @@ import store from './store'
 
 Vue.config.productionTip = false
 import Vant from 'vant';
+import { Image as VanImage } from 'vant';
 import 'vant/lib/index.css';
 
 Vue.use(Vant);
+Vue.use(VanImage);
 new Vue({
     router,
     store,

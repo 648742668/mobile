@@ -1,20 +1,29 @@
 import Vue from 'vue'
 import './plugins/axios'
+// import toast from './components/common/toast/'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
-Vue.config.productionTip = false
-import Vant from 'vant';
-import { Image as VanImage } from 'vant';
+import VueLazyLoad from 'vue-lazyload'
+import Vant, {Image as VanImage} from 'vant';
 import 'vant/lib/index.css';
+import FastClick from 'fastclick'
+
 Vue.prototype.img = (path) =>{
   return 'http://192.168.221.192:9000/images/'+path
 }
+
 Vue.use(Vant);
 Vue.use(VanImage);
+Vue.use(VueLazyLoad, {
+    loading: require("./assets/img/ddd.png")
+})
+Vue.config.productionTip = false
+Vue.prototype.$bus = new Vue()
+// Vue.use(toast)
 new Vue({
     router,
     store,
     render: h => h(App)
 }).$mount('#app')
+FastClick.attach(document.body)

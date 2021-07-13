@@ -6,8 +6,9 @@
         </a>
         <!--        <img v-l>-->
         <div class="goods-info">
-            <p class="goods-title">{{goodsItem.title}}</p>
-            <span class="price">{{goodsItem.price}}</span>
+
+            <div class="goods-title">{{goodsItem.title}}</div>
+            <span class="price">{{'￥'+goodsItem.price}}</span>
             <span class="collect">{{goodsItem.cfav}}</span>
         </div>
 
@@ -15,6 +16,8 @@
 </template>
 
 <script>
+    import {IMG_URL} from "../../../config/config";
+
     export default {
         name: "GoodsItem",
         components: {},
@@ -38,9 +41,9 @@
             showImg() {
                 // return "http://192.168.216.32:9000/image/40790746644600whhm.jpg";
                 if (this.goodsItem.show)
-                    return this.goodsItem.show.img
+                    return IMG_URL+this.goodsItem.show.img
                 else
-                    return this.goodsItem.image
+                    return IMG_URL+this.goodsItem.img
             }
         }
     }
@@ -48,16 +51,20 @@
 
 <style scoped>
     .goods {
-        padding-bottom: 40px;
+        padding-bottom: 70px;
         position: relative;
         width: 47%;
         margin-right: 5px;
         margin-left: 5px;
+        border-radius: 7px;
+        background: white;
+        margin-top: 10px;
     }
 
     .goods a img {
         width: 100%;
-        border-radius: 7px;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
     }
 
     .goods-info {
@@ -67,32 +74,39 @@
         left: 0;
         right: 0;
         overflow: hidden;
-        text-align: center;
     }
 
-    .goods-info p {
+    .goods-info .goods-title {
+        margin-top: 5px;
+        padding-right: 10px;
+        padding-left: 10px;
+        width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
-        margin-bottom: 3px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .goods-info .price {
+        font-weight: bold;
+        margin-top: 10px;
+        font-size: 18px;
         color: var(--color-high-text);
-        margin-right: 20px;
+        margin-left: 10px;
     }
-
-    .goods-info .collect {
-        position: relative;
-    }
-
-    .goods-info .collect::before {
-        content: '';
+    .goods-info .price ::after{
+        content: '卷后价';
         position: absolute;
-        left: -15px;
-        top: 0;
-        width: 14px;
-        height: 14px;
-        background: url("~@/assets/img/common/collect.svg") 0 0/14px 14px;
+        right: 15px;
+        top:0;
+        height: 20px;
+        width: 50px;
     }
+    .goods-info .collect {
+        position: absolute;
+        right: 2px;
+        top: 38px;
+    }
+
 </style>

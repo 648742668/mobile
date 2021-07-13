@@ -1,6 +1,6 @@
 <template>
-    <div id="home">
-        <search-nav-bar/>
+    <div id="main">
+        <search-nav-bar class="home-nav"/>
         <tab-control
                 :titles="['流行','新款','精品']"
                 class="tab-control"
@@ -15,34 +15,38 @@
                 :listenScroll="true"
                 @scroll='scroll'
                 :data="goodList">
-            <div style="padding: 10px">
+            <div  class="swiper-wrapper">
                 <home-swiper :banner="banner"
                              @swiperImgLoad="swiperImgLoad"/>
             </div>
+            <div style="background: white">
+                <div class="recommends-wrapper">
+                    <main-recommend
+                            :recommends="recommends1"
+                    />
+                    <main-recommend
+                            :recommends="recommends2"
+                    />
+                </div>
+            </div>
 
-            <home-recommend
-                    :recommends="recommends1"
-            />
-            <home-recommend
-                    :recommends="recommends2"
-            />
-            <future-view/>
+                <main-hot :hots="hots"/>
+<!--            <future-view/>-->
             <tab-control
                     :titles="['流行','新款','精品']"
                     ref="tabControl2"
                     @tabControlClick='tabClick'/>
-            <goods-list :goods="goodList"/>
+            <goods-list :goods="goodList" />
         </scroll>
         <back-top ref='backtop' @click.native='backTop'/>
     </div>
 </template>
 
 <script>
-    import {banner, goodsList, recommends1, recommends2} from "../../config/mock";
+    import {banner, hots, recommends1, recommends2} from "../../mock/mock";
     import NavBar from "../../components/common/navbar/NavBar";
     import HomeSwiper from "./component/HomeSwiper";
-    import HomeRecommend from "./component/HomeRecommend";
-    import FutureView from "./component/FutureView";
+    import MainRecommend from "./component/MainRecommend";
     import TabControl from "../../components/content/tabcontrol/TabControl";
     import GoodsList from "../../components/content/goodslist/GoodsList";
     import Scroll from "../../components/common/scroll/Scroll";
@@ -50,10 +54,14 @@
     import {backTopMixin, itemLoadListenerMixin} from "../../common/mixin";
     import SearchNavBar from "../../components/search_input/SearchNavBar";
 
+    import MainHot from "./component/MainHot";
+
+    const basePrefix="/mb-product"
     export default {
         name: "Home",
         data() {
             return {
+                hots:[],
                 result: null,
                 banner: [],
                 recommends1: [],
@@ -70,12 +78,12 @@
             }
         },
         components: {
+            MainHot,
             SearchNavBar,
             GoodsList,
             NavBar,
             HomeSwiper,
-            HomeRecommend,
-            FutureView,
+            MainRecommend,
             TabControl,
             Scroll,
             BackTop
@@ -90,20 +98,22 @@
         },
         methods: {
             getHomeMultiData() {
-                console.log("getHomeMultiData")
                 // getHomeMultiData().then(res => {
                 //     // console.log(res);
                     this.recommends1 = recommends1;
                     this.recommends2 = recommends2;
                     this.banner = banner
+                    this.hots=hots
                 // })
             },
             getGoodsData(type) {
                 let page = this.goods[type].page + 1;
-                console.log("getGoodsData",type,page)
+                this.get(basePrefix + "/list-main",{pageNum:page},obj=>{
+                    this.goods[type].list.push(...obj.records);
+                })
                 // getGoodsData(type, page).then(res => {
                 //     this.goods[type].page++;
-                    this.goods[type].list.push(...goodsList);
+                //     this.goods[type].list.push(...goodsList);
                 // })
             },
             //    tab control 自定义事件
@@ -142,15 +152,6 @@
                 return this.goods[this.currentType].list
             }
         },
-        mounted() {
-            // const refresh = deBounce(this.$refs.scroll.refresh, 100);
-            // this.$bus.$on('imgLoad', () => {
-            //     refresh()
-            // })
-            //解决tab control的吸顶效果   获取offset
-            // 但是由于许多元素的img没有加载完成，所以offsetTop时不正确的
-            // console.log(this.$refs.tabControl.$el.offsetTop);
-        },
         activated() {
             this.$refs.scroll.refresh();
             this.$refs.scroll.scrollTo(0, this.saveY, 0);
@@ -160,15 +161,17 @@
             this.$refs.scroll.refresh()
 
             this.$bus.$off('imgLoad', this.itemLoadListener)
-        }
+        },
+
     }
 </script>
 
 <style scoped>
-    #home {
+    #main {
         /*padding-top: 44px;*/
         /*viewport height 如果不设置这个，原有的大量商品会把home撑开5000px*/
         height: 100vh;
+        background: var(--color-tint);
     }
 
     .home-nav {
@@ -209,5 +212,11 @@
         right: 0;
         left: 0;
         z-index: 9;
+    }
+    .swiper-wrapper{
+        padding: 10px;
+        background: white;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
     }
 </style>

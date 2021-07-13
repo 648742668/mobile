@@ -11,7 +11,7 @@
 
 <script>
     export default {
-        name: "HomeRecommend",
+        name: "MainRecommend",
         props:{
             recommends:Array
         }
@@ -24,15 +24,15 @@
         width: 100%;
         text-align: center;
         font-size: 12px;
-        padding: 15px 0 0 15px;
-        border-bottom: 10px #eeeeee;
+        padding: 10px 10px 0 10px;
+        background: white;
     }
     .recommend-item{
         margin: 5px;
         flex: 1;
     }
     .recommend-item a img{
-        width: 60px;
-        height: 60px;
+        width: 40px;
+        height: 40px;
     }
 </style>

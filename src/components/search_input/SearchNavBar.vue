@@ -1,6 +1,7 @@
 <template>
     <div class="nav-bar">
         <van-search
+                @focus="goSearch"
                 class="van-search"
                 v-model="value"
                 shape="round"
@@ -14,38 +15,45 @@
 <script>
     export default {
         name: "SearchNavBar",
-        props:{
+        methods: {
+            goSearch() {
+                this.$router.push("/search")
+            }
+        },
+        props: {
             value: {
                 type: String,
                 default: ""
             },
-            background:{
+            background: {
                 type: String,
                 default: "#ea5e5e"
             },
-            placeholder:{
+            placeholder: {
                 type: String,
                 default: "#"
             }
 
-        }
+        },
+
     }
 </script>
 
 <style scoped>
-.van-search{
-    padding: 5px 10px;
-}
-.nav-bar {
-    position: relative;
-    z-index: 10;
+    .van-search {
+        padding: 5px 10px;
+    }
 
-    /*display: flex;*/
-    /**/
-    /*height: 44px;*/
-    /*line-height: 44px;*/
-    /*text-align: center;*/
-}
+    .nav-bar {
+        position: relative;
+        z-index: 10;
+
+        /*display: flex;*/
+        /**/
+        /*height: 44px;*/
+        /*line-height: 44px;*/
+        /*text-align: center;*/
+    }
 
 
 </style>

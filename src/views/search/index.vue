@@ -2,11 +2,11 @@
     <div>
 
         <van-search v-model="value" placeholder="请输入搜索关键词" shape="round" @search="enter" show-action>
-            <van-icon name="arrow-left" slot="left"/>
-            <span slot="action">搜索</span>
+            <van-icon name="arrow-left" slot="left" @click="$router.back()"/>
+            <span slot="action" @click="clickSearch">搜索</span>
         </van-search>
 
-        <div class="recent-search">
+        <div class="recent-search" v-show="history.length > 0">
             <div class="recent-search-title">
                 <span class="left">最近搜索</span>
                 <span class="right">
@@ -22,12 +22,15 @@
         <div class="recent-search">
             <div class="recent-search-title">
                 <span class="left">热门搜索</span>
-                <span class="right">
+                <span class="right" @click="showHot=!showHot" v-if="showHot">
                     隐藏
                 </span>
+                <span class="right" @click="showHot=!showHot" v-else>
+                    显示
+                </span>
             </div>
-            <div>
-                <span v-for="(item,index) in history" :key="index" class="search-content">
+            <div v-show="showHot">
+                <span v-for="(item,index) in hot" :key="index" class="search-content">
                     {{item}}
                 </span>
             </div>
@@ -37,27 +40,55 @@
 
 <script>
     import ZtHistoryItem from "./component/ZtHistoryItem";
-    import {getHistory} from "../../utils/auth";
+    import {getHistory, removeHistory, setHistory} from "../../utils/auth";
+    import {Notify} from "vant";
 
     export default {
+
         name: "SearchInput",
         components: {ZtHistoryItem},
         data() {
             return {
                 value: "",
-                history: ['mate40', 'p30', 'iPhone12 pro max', '小米11 ultra'],
+                history: [],
                 hot: ['mate40', 'p30', 'iPhone12 pro max', '小米11 ultra'],
+                showHot: true
             }
         },
-        methods:{
-            clearHistory(){
+        created() {
+            let history = getHistory()
+            if (history !== undefined) {
+                let temp = history.split(",")
+                for (let i = 0; i < 20 && i < temp.length; i++) {
+                    if (temp[i].trim().length > 0) {
+                        this.history.push(temp[i])
+                    }
+                }
+            }
+        },
+        methods: {
+            clearHistory() {
+                removeHistory()
+                this.history = []
+            },
+            enter(value) {
+                if (value.trim().length > 0) {
+                    this.history.unshift(value)
+                    console.log(value)
+                    let history = getHistory();
+                    if (history === undefined) {
+                        setHistory("," + value)
+                    } else {
+                        setHistory("," + value + history + value)
+                    }
+
+                    this.value = ""
+                } else {
+                    Notify({ type: 'warning', message: '请输入内容',duration: 1000, });
+                }
 
             },
-            enter(value){
-                console.log(value)
-                let history = getHistory();
-            },
-            clickSearch(){
+            clickSearch() {
                 this.enter(this.value)
             }
 
@@ -76,14 +107,17 @@
     .recent-search-title {
         min-height: 30px;
     }
-    .recent-search-title .left{
+
+    .recent-search-title .left {
         font-weight: bold;
         font-size: 15px;
     }
-    .recent-search-title .right{
+
+    .recent-search-title .right {
         font-size: 15px;
     }
-    .search-content{
+
+    .search-content {
         display: inline-block;
         background: #F0F2F5;
         margin-right: 5px;

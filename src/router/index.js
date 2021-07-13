@@ -74,28 +74,36 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/me/index')
       },
     ]
-  },{
+  },
+  {
     path:'/login',
-    name:'Login',
+    name:'loginIndex',
     //登录界面路径
     component: () => import('@/views/login')
   },
+  {
+    path:'/sign',
+    name:'signIndex',
+    //登录界面路径
+    component: () => import('@/views/sign'),
+    children: [
+      {
+        path: '/signForm',
+        name: 'signForm',
+        component: () => import('../views/sign/signForm')
+      }
+    ]
+  },
+  {
+    path:'/forgetPwd',
+    name: 'forgetPassword',
+    component: () => import('@/views/changePassword/forgetPassword')
+  }
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
-router.beforeEach((to, from, next) => {
-  if (to.path === '/login') {
-    next()
-    return
-  }
-  if (store.getters.GET_TOKEN) {
-    next()
-    return
-  }
-  next('/login')
 })
 export default router

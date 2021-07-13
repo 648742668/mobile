@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -10,6 +9,12 @@ const routes = [
     name:'Login',
     //登录界面路径
     component: () => import('@/views/login')
+  },
+  {
+    path:'/search',
+    name:'Search',
+    //登录界面路径
+    component: () => import('@/views/search')
   },
   {
     path: '/',

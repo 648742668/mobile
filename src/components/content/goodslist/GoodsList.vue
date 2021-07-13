@@ -36,5 +36,8 @@
     flex-wrap: wrap;
     /*均等分*/
     justify-content: space-around;
+    background: #eceaea;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 </style>

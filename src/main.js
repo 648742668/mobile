@@ -8,9 +8,8 @@ Vue.config.productionTip = false
 import Vant from 'vant';
 import { Image as VanImage } from 'vant';
 import 'vant/lib/index.css';
-Vue.prototype.img = (path) =>{
-  return 'http://192.168.221.192:9000/images/'+path
-}
+
+
 Vue.use(Vant);
 Vue.use(VanImage);
 new Vue({

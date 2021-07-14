@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect:'/main',
+    redirect: '/main',
     component: () => import('@/views'),
     children: [
       // {
@@ -61,14 +61,14 @@ const routes = [
     ]
   },
   {
-    path:'/login',
-    name:'loginIndex',
+    path: '/login',
+    name: 'loginIndex',
     //登录界面路径
     component: () => import('@/views/login')
   },
   {
-    path:'/sign',
-    name:'signIndex',
+    path: '/sign',
+    name: 'signIndex',
     //登录界面路径
     component: () => import('@/views/sign'),
     children: [
@@ -80,9 +80,15 @@ const routes = [
     ]
   },
   {
-    path:'/forgetPwd',
+    path: '/forgetPwd',
     name: 'forgetPassword',
-    component: () => import('@/views/changePassword/forgetPassword')
+    component: () => import('@/views/password/forgetPassword')
+  },
+  ,
+  {
+    path: '/changePwd',
+    name: 'changePassword',
+    component: () => import('@/views/password/changePassword')
   }
 ]
 
@@ -91,4 +97,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
 export default router

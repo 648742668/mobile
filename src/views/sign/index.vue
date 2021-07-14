@@ -19,13 +19,7 @@ import signForm from "@/views/sign/signForm";
 export default {
   name: "signIndex",
   created() {
-    // this.$dialog.confirm({
-    //   title: this.title,
-    //   message: this.message,
-    // }).then(() => {
-    // }).catch(() => {
-    //   this.$router.back();
-    // })
+
   },
   data() {
     return {

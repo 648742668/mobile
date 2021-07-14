@@ -8,8 +8,12 @@ Vue.config.productionTip = false
 import Vant from 'vant';
 import { Image as VanImage } from 'vant';
 import 'vant/lib/index.css';
+import { Toast } from 'vant';
 
 
+
+
+Vue.use(Toast);
 Vue.use(Vant);
 Vue.use(VanImage);
 new Vue({

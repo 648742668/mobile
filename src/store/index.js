@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     token: '',
     consumer:{},
+    changePwd:'',
   },
   mutations: {
     SET_TOKEN(state, token) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     SET_CONSUMER(state, consumer) {
       state.consumer = consumer
     },
+    SET_CHANGEPWD(state, changePwd) {
+      state.changePwd = changePwd
+    },
   },
   getters:{
     GET_TOKEN(state) {
@@ -25,6 +29,9 @@ export default new Vuex.Store({
     },
     GET_CONSUMER(state) {
       return state.consumer
+    },
+    GET_CHANGEPWD(state) {
+      return state.changePwd
     },
   },
   actions: {

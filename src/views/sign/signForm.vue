@@ -50,7 +50,7 @@
           clickable
           label="密保问题"
           label-width="56px"
-          :value="form.question"
+          :value="form.rawQuestion"
           placeholder="选择问题"
           @click="showPicker = true"
       />
@@ -63,18 +63,19 @@
         />
       </van-popup>
       <van-field
-          v-model="form.answer"
+          v-model="form.rawAnswer"
           label-width="4em"
           clearable
           :disabled="answerShow"
           name="密保答案"
           label="密保答案"
           placeholder="密保答案"
-          :rules="rules.answer"
+          :rules="rules.rawAnswer"
       ></van-field>
       <van-button
           class="button"
           plain
+          :disabled="answerShow"
           type="info"
           round
           size="small"
@@ -85,13 +86,13 @@
 </template>
 
 <script>
-import {Notify} from 'vant';
+import { Notify } from 'vant';
 import SwitchPasswordType from "@/components/password/switchPasswordType";
 
 export default {
   name: "signForm",
   props: {},
-  components: {SwitchPasswordType, [Notify.Component.name]: Notify.Component,},
+  components: {SwitchPasswordType,  [Notify.Component.name]: Notify.Component,},
   created() {
 
   },
@@ -139,19 +140,17 @@ export default {
         phone: [
           {pattern: /^1([38][0-9]|4[5-9]|5[0-3,5-9]|66|7[0-8]|9[89])[0-9]{8}$/, message: '请输入正确的手机号'},
         ],
-        answer: [
+        rawAnswer: [
           {required: true, message: '请填写密保答案'},
-          {validator: this.validator, message: '长度必须大于5个字符，小于50个字符'},
         ]
       }
     }
   },
   methods: {
     onConfirm(value) {
-      this.form.question = value;
+      this.form.rawQuestion = value;
       this.showPicker = false;
       this.answerShow = false;
-
     },
     oncancel() {
       this.showPicker = false;
@@ -165,34 +164,11 @@ export default {
         if (response === true) {
           Notify({type: 'success', message: '注册成功'});
           this.$router.push({
-            path: '/'
+            path: '/login'
           })
         }
       })
     },
-    validator(val) {
-      if (val.length < 5 || val.length >= 50) {
-        return false
-      } else {
-        return true
-      }
-    },
-    // checkName(val) {
-    //   this.get(this.url.checkName, {username: val}, response => {
-    //     console.log(response)
-    //     return response
-    //   })
-    // },
-    // checkPhone(val) {
-    //   this.get(this.url.checkPhone, {phone: val}, response => {
-    //     return response
-    //   })
-    // },
-    // checkPassword(val){
-    //   this.get(this.url.checkPassword, {rawPassword: val}, response => {
-    //     return response
-    //   })
-    // }
   }
 }
 </script>

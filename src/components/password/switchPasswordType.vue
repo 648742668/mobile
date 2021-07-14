@@ -51,8 +51,8 @@ export default {
     return {
       password: '',
       passwordType: 'password',
-      openImg: require('../../assets/passwordOpen.png'),
-      closeImg: require('../../assets/passwordClose.png'),
+      openImg: require('../../assets/password/passwordOpen.png'),
+      closeImg: require('../../assets/password/passwordClose.png'),
       img: '',
       rule: [
           {required: true, message: '请填写密码', trigger: 'blur'},

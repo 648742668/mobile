@@ -177,12 +177,6 @@
         background-color: var(--color-tint);
         font-weight: 700;
         color: #fff;
-
-        /*position: fixed;*/
-        /*left: 0;*/
-        /*right: 0;*/
-        /*top: 0;*/
-        /*!*设置防遮盖*!*/
         z-index: 9;
     }
 

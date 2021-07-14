@@ -7,19 +7,20 @@
 <script>
     export default {
         name: "BackTop",
-        data(){
+        data() {
             return {isShow: false}
         }
     }
 </script>
 
 <style scoped>
-.back-top{
-    position: absolute;
-    right: 8px;
-    bottom: 55px;
-}
-    img{
+    .back-top {
+        position: absolute;
+        right: 8px;
+        bottom: 55px;
+    }
+
+    img {
         height: 50px;
         width: 50px;
     }

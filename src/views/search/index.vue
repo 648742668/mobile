@@ -1,11 +1,7 @@
 <template>
     <div>
 
-        <van-search v-model="value" placeholder="请输入搜索关键词" shape="round" @search="enter" show-action>
-            <van-icon name="arrow-left" slot="left" @click="$router.back()"/>
-            <span slot="action" @click="clickSearch">搜索</span>
-        </van-search>
-
+        <zt-search-navbar @searchEnter="enter" v-model="value"/>
         <div class="recent-search" v-show="history.length > 0">
             <div class="recent-search-title">
                 <span class="left">最近搜索</span>
@@ -42,11 +38,12 @@
     import ZtHistoryItem from "./component/ZtHistoryItem";
     import {getHistory, removeHistory, setHistory} from "../../utils/auth";
     import {Notify} from "vant";
+    import ZtSearchNavbar from "../../components/content/searchnavbar/SearchNavbar";
 
     export default {
 
         name: "SearchInput",
-        components: {ZtHistoryItem},
+        components: {ZtSearchNavbar, ZtHistoryItem},
         data() {
             return {
                 value: "",
@@ -74,22 +71,17 @@
             enter(value) {
                 if (value.trim().length > 0) {
                     this.history.unshift(value)
-                    console.log(value)
                     let history = getHistory();
                     if (history === undefined) {
                         setHistory("," + value)
                     } else {
                         setHistory("," + value + history + value)
                     }
-
-                    this.value = ""
+                    this.$router.push({path:"/search_results",query:{content:this.value}})
                 } else {
                     Notify({ type: 'warning', message: '请输入内容',duration: 1000, });
                 }
 
-            },
-            clickSearch() {
-                this.enter(this.value)
             }
 
         }

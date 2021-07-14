@@ -9,7 +9,7 @@
 
             <div class="goods-title">{{goodsItem.title}}</div>
             <span class="price">{{'￥'+goodsItem.price}}</span>
-            <span class="collect">{{goodsItem.cfav}}</span>
+            <span class="collect">{{goodsItem.favor +"人收藏"}}</span>
         </div>
 
     </div>
@@ -105,8 +105,8 @@
     }
     .goods-info .collect {
         position: absolute;
-        right: 2px;
-        top: 38px;
+        right: 8px;
+        top: 36px;
     }
 
 </style>

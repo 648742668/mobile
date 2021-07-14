@@ -17,17 +17,18 @@ const routes = [
     component: () => import('@/views/search')
   },
   {
+    path:'/search_results',
+    name:'SearchResults',
+    //登录界面路径
+    component: () => import('@/views/search_result')
+  },
+  {
     path: '/',
     name: 'Index',
     redirect:'/main',
     component: () => import('@/views'),
     children: [
-      // {
-      //   path: '/',
-      //   name: 'Home',
-      //   redirect:"/main",
-      //   // component: Home
-      // },
+
       {
         path: '/about',
         name: 'About',

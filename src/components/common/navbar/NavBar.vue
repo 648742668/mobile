@@ -1,15 +1,27 @@
 <template>
-    <div class="nav-bar">
-        <div class="left"><slot name="left"/></div>
-        <div class="middle"><slot name="middle"/></div>
-        <div class="right"><slot class="right"/></div>
+    <div class="nav-bar" :style="{background:background}">
+        <div class="left">
+            <slot name="left"/>
+        </div>
+        <div class="middle">
+            <slot name="middle"/>
+        </div>
+        <div class="right">
+            <slot name="right"/>
+        </div>
 
     </div>
 </template>
 
 <script>
     export default {
-        name: "NavBar"
+        name: "NavBar",
+        props: {
+            background: {
+                type: String,
+                default: "transparent"
+            }
+        }
     }
 </script>
 
@@ -26,9 +38,10 @@
     }
 
     .left, .right {
-        width: 18%;
+        width: 15%;
     }
-    .middle{
+
+    .middle {
         flex: 1;
     }
 </style>

@@ -23,7 +23,8 @@
             changePink(index) {
                 this.currentIndex = index;
                 this.$emit("tabControlClick", index)
-            }, changeWhite(index) {
+            },
+            changeWhite(index) {
                 this.currentIndex = -1
             }
         }

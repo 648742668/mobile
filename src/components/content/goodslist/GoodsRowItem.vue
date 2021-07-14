@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" @click="goToDetail">
         <div class="goods-img">
             <img v-lazy="getFullUrl(goods.img)" @load="imgLoad">
         </div>
@@ -42,6 +42,9 @@
             imgLoad() {
                 this.$bus.$emit("imgLoad")
             },
+            goToDetail(){
+                this.$router.push({path:"/detail",query:{id:this.goods.id}})
+            }
         },
         filters:{
             getFavor(value){

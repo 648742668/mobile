@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="top">
+    <div id="top" >
         <van-image
             round
             class="img"
@@ -152,10 +152,10 @@ export default {
   width: 80vw;
   margin-left: 10vw;
 }
-
 .img {
   width: @img;
   height: @img;
+  display: inline-block;
 }
 .button{
   border: none;
@@ -172,7 +172,7 @@ export default {
 
 #top {
   margin-top: @top_top;
-  margin-left: @top_left;
+  text-align:center;
 }
 
 #footer {

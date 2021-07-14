@@ -33,7 +33,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect:'/main',
+    redirect: '/main',
     component: () => import('@/views'),
     children: [
 
@@ -75,19 +75,19 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/me/index')
+        component: () => import(/* webpackChunkName: "about" */ '../views/me/index'),
       },
     ]
   },
   {
-    path:'/login',
-    name:'loginIndex',
+    path: '/login',
+    name: 'loginIndex',
     //登录界面路径
     component: () => import('@/views/login')
   },
   {
-    path:'/sign',
-    name:'signIndex',
+    path: '/sign',
+    name: 'signIndex',
     //登录界面路径
     component: () => import('@/views/sign'),
     children: [
@@ -99,9 +99,21 @@ const routes = [
     ]
   },
   {
-    path:'/forgetPwd',
+    path: '/forgetPwd',
     name: 'forgetPassword',
-    component: () => import('@/views/changePassword/forgetPassword')
+    component: () => import('@/views/password/forgetPassword')
+  },
+  ,
+  {
+    path: '/changePwd',
+    name: 'changePassword',
+    component: () => import('@/views/password/changePassword')
+  },
+  {
+    path: '/userSetting',
+    name: 'settingIndex',
+    //登录界面路径
+    component: () => import('@/views/me/setting')
   }
 ]
 

@@ -7,10 +7,14 @@ import store from './store'
 import VueLazyLoad from 'vue-lazyload'
 import Vant, {Image as VanImage} from 'vant';
 import 'vant/lib/index.css';
+import { Toast } from 'vant';
 
 import FastClick from 'fastclick'
 
 
+
+
+Vue.use(Toast);
 Vue.use(Vant);
 Vue.use(VanImage);
 Vue.use(VueLazyLoad, {

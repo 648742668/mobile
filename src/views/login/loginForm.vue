@@ -61,18 +61,18 @@
               to="sign"></van-button>
         </van-row>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
+import { Notify } from 'vant';
 import SwitchPasswordType from "@/components/password/switchPasswordType";
 import {IMG_URL} from "@/config/config";
 
 export default {
   name: "loginForm",
-  components: {SwitchPasswordType},
+  components: {SwitchPasswordType, [Notify.Component.name]: Notify.Component,},
   props: {
     path: {
       type: String,
@@ -98,9 +98,9 @@ export default {
         add:'新用户注册',
         forget:'忘记密码'
       },
-      imgUrl: 'https://b.yzcdn.cn/vant/icon-demo-1126.png',
+      imgUrl: require('../../assets/login/login.png'),
       name: '电商APP',
-      appImgUrl: require('../../assets/App.png'),
+      appImgUrl: require('../../assets/login/App.png'),
       form: {
         username: '',
         password: '',
@@ -122,11 +122,11 @@ export default {
   methods: {
     login() {
       this.get(this.url.login, {username: this.form.username, password: this.form.password}, response => {
-        console.log(response)
+        Notify({type: 'success', message: '登录成功',duration: 500,});
         this.$store.commit('SET_TOKEN', response.token)
         this.$store.commit('SET_CONSUMER', response.consumer)
-        this.imgUrl = 'https://b.yzcdn.cn/vant/icon-demo-1126.png'
-        // this.$router.back()
+        this.imgUrl = require('../../assets/login/login.png')
+        this.$router.back()
       });
     },
     checkImg() {
@@ -135,7 +135,7 @@ export default {
             this.$store.getters.GET_CONSUMER.phone === this.form.username) {
           this.imgUrl = IMG_URL + this.$store.getters.GET_CONSUMER.img
         } else {
-          this.imgUrl = 'https://b.yzcdn.cn/vant/icon-demo-1126.png'
+          this.imgUrl = require('../../assets/login/login.png')
         }
       }
     }

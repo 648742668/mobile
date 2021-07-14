@@ -1,12 +1,6 @@
 <template>
     <div class="container">
         <zt-search-navbar @searchEnter="enter" v-model="value" class="zt-search-navbar"/>
-        <!--        <van-list-->
-        <!--                v-model="loading"-->
-        <!--                :finished="finishing"-->
-        <!--                finished-text="没有更多了"-->
-        <!--                @load="onLoad"-->
-        <!--        >-->
         <scroll class="content-a"
                 ref="scroll"
                 :probeType='3'
@@ -17,9 +11,7 @@
                 :data="dataList">
             <good-row-list :goods="dataList"/>
         </scroll>
-        <!--            <goods-row-item v-for="i in dataList" :goods="i"></goods-row-item>-->
-        <!--        </van-list>-->
-        <back-top ref='backtop' @click.native='backTop'/>
+        <back-top ref='backTop' @click.native='backTop'/>
     </div>
 </template>
 
@@ -58,7 +50,7 @@
         },
         methods: {
             scroll(position) {
-                this.$refs.backtop.isShow = position.y < -1050;
+                this.$refs.backTop.isShow = position.y < -1050;
             },
             enter(value) {
                 console.log(value)
@@ -86,7 +78,4 @@
         right: 0;
     }
 
-    .zt-search-navbar {
-        z-index: 10;
-    }
 </style>

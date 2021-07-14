@@ -13,14 +13,18 @@ const routes = [
   {
     path:'/search',
     name:'Search',
-    //登录界面路径
     component: () => import('@/views/search')
   },
   {
     path:'/search_results',
     name:'SearchResults',
-    //登录界面路径
     component: () => import('@/views/search_result')
+  },
+  {
+    path:"/detail",
+    name:"Detail",
+    component:()=>import('@/views/detail')
+
   },
   {
     path: '/',

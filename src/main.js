@@ -5,10 +5,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueLazyLoad from 'vue-lazyload'
-import Vant from 'vant';
-import { Image as VanImage } from 'vant';
+import Vant, {Image as VanImage} from 'vant';
 import 'vant/lib/index.css';
+
 import FastClick from 'fastclick'
+
+
 Vue.use(Vant);
 Vue.use(VanImage);
 Vue.use(VueLazyLoad, {

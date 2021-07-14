@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import store from '@/store'
+
+
 Vue.use(VueRouter)
 
 const routes = [
   {
+
     path:'/login',
     name:'Login',
     //登录界面路径
@@ -71,6 +75,30 @@ const routes = [
       },
     ]
   },
+  {
+    path:'/login',
+    name:'loginIndex',
+    //登录界面路径
+    component: () => import('@/views/login')
+  },
+  {
+    path:'/sign',
+    name:'signIndex',
+    //登录界面路径
+    component: () => import('@/views/sign'),
+    children: [
+      {
+        path: '/signForm',
+        name: 'signForm',
+        component: () => import('../views/sign/signForm')
+      }
+    ]
+  },
+  {
+    path:'/forgetPwd',
+    name: 'forgetPassword',
+    component: () => import('@/views/changePassword/forgetPassword')
+  }
 ]
 
 const router = new VueRouter({

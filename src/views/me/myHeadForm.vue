@@ -2,7 +2,7 @@
   <div>
     <div class="head">
       <van-icon
-          @click="query1"
+          @click="setting"
           style="float: right;"
           name="setting-o"
           size="25"/>
@@ -52,8 +52,10 @@ export default {
         })
       }
     },
-    query1(){
-      this.$emit('query');
+    setting(){
+      this.$router.push({
+        path: '/userSetting'
+      })
     }
   }
 }

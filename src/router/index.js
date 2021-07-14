@@ -56,7 +56,7 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/me/index')
+        component: () => import(/* webpackChunkName: "about" */ '../views/me/index'),
       },
     ]
   },
@@ -89,6 +89,12 @@ const routes = [
     path: '/changePwd',
     name: 'changePassword',
     component: () => import('@/views/password/changePassword')
+  },
+  {
+    path: '/userSetting',
+    name: 'settingIndex',
+    //登录界面路径
+    component: () => import('@/views/me/setting')
   }
 ]
 

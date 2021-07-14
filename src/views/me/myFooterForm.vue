@@ -33,8 +33,7 @@ export default {
       this.$store.commit('SET_TOKEN', '')
       this.$store.commit('SET_CONSUMER', {})
       this.$store.commit('SET_CHANGEPWD', '')
-      this.$toast('退出成功');
-      this.$router.go(0)
+      this.$emit('reload')
     }
   }
 }

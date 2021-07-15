@@ -97,25 +97,17 @@
         },
         methods: {
             getHomeMultiData() {
-                // getHomeMultiData().then(res => {
-                //     // console.log(res);
                     this.recommends1 = recommends1;
                     this.recommends2 = recommends2;
                     this.banner = banner
                 this.hots=hots
-                // })
             },
             getGoodsData(type) {
                 let page = this.goods[type].page + 1;
                 this.get(basePrefix + "/list-main",{pageNum:page},obj=>{
                     this.goods[type].list.push(...obj.records);
                 })
-                // getGoodsData(type, page).then(res => {
-                //     this.goods[type].page++;
-                //     this.goods[type].list.push(...goodsList);
-                // })
             },
-            //    tab control 自定义事件
             tabClick(index) {
                 switch (index) {
                     case 0:

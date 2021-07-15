@@ -3,24 +3,9 @@
         <div style="color: #000000;border-left: red 3px solid;padding-left: 3px"><strong>详情</strong></div>
         <div style="font-size: 12px;margin-top: 10px;font-weight: bold">参数详情</div>
         <table class="info-param">
-            <tr>
-                <td class="info-param-key">上市时间</td>
-                <td class="param-value">2021年</td>
-            </tr>
-            <tr>
-                <td class="info-param-key">屏幕大小</td>
-                <td class="param-value">6.5英寸</td>
-            </tr>
-            <tr>
-                <td class="info-param-key">屏幕大小</td>
-                <td class="param-value">6.5英寸</td>
-            </tr>            <tr>
-            <td class="info-param-key">屏幕大小</td>
-            <td class="param-value">6.5英寸</td>
-        </tr>
-            <tr>
-                <td class="info-param-key">屏幕大小</td>
-                <td class="param-value">6.5英寸</td>
+            <tr v-for="(spu,index) in spuList" :key="index">
+                <td class="info-param-key">{{spu.key}}</td>
+                <td class="param-value">{{spu.value}}</td>
             </tr>
         </table>
     </div>
@@ -28,7 +13,18 @@
 
 <script>
     export default {
-        name: "DetailSpu"
+        name: "DetailSpu",
+        props:{
+            spuList:{
+                type:Array,
+                default:()=>{
+                    return [
+                        {key:"屏幕大小",value:"6.5 inch"},
+                        {key:"屏幕大小",value:"6.5 inch"},
+                    ]
+                }
+            }
+        }
     }
 </script>
 

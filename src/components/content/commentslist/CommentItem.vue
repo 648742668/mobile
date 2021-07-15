@@ -2,24 +2,26 @@
     <div class="container">
         <div class="first-line">
             <div class="comment-consumer left">
-                <img width="30" height="30" src="https://i.loli.net/2021/07/13/aQlZmexdIiFEsTM.jpg">
-                <span class="consumer-nick">阿巴阿巴</span>
+                <img width="30" height="30" :src="getFullUri">
+                <span class="consumer-nick">{{comment.nickname}}</span>
             </div>
-            <div class="comment-time right">2021-3-4</div>
+            <div class="comment-time right">{{comment.createTime}}</div>
         </div>
         <div class="second-line">
             <div>
                 <van-rate v-model="comment.rank" :size="15"/>
             </div>
-            <span>绿色,128G</span>
+            <span>{{getSkuList}}</span>
         </div>
         <div class="third-line van-multi-ellipsis--l3">
-            非常好用，非常好用，非常好用，非常好用，非常好用，   非常好用，非常好用，非常好用，非常好用，非常好用，   非常好用，非常好用，非常好用，非常好用，非常好用，
+            {{comment.content}}
         </div>
     </div>
 </template>
 
 <script>
+    import {IMG_URL} from "../../../config/config";
+
     export default {
         name: "CommentItem",
         props: {
@@ -27,9 +29,29 @@
                 type: Object,
                 default: () => {
                     return {
-                        rank: 4
+                        id: -1,
+                        content: "非常好用，非常好用，非常好用，非常好用，非常好用，非常好用，非常好用，非常好用，非常好用，非常好用非常好用，非常好用，非常好用，非常好用，非常好用，",
+                        rank: 4,
+                        skuList: ["128G", "64G", "墨绿色"],
+                        images: "",
+                        createTime: "2021-4-2",
+                        nickname: "haha",
+                        img: "40790746644600whhm.jpg",
+
                     }
                 }
+            }
+        },
+        computed:{
+            getSkuList(){
+                let skus = ""
+                for (let i = 0; i < this.comment.skuList.length; i++) {
+                    skus+=this.comment.skuList[i]+","
+                }
+                return skus.substring(0,skus.length - 1)
+            },
+            getFullUri(){
+                return IMG_URL + this.comment.img
             }
         }
     }
@@ -72,13 +94,15 @@
         height: 17px;
         line-height: 17px
     }
-    .second-line > span{
+
+    .second-line > span {
         margin-left: 5px;
         font-size: 12px;
         height: 17px;
         line-height: 17px
     }
-    .third-line{
+
+    .third-line {
         margin-top: 3px;
     }
 </style>

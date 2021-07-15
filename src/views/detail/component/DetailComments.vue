@@ -10,7 +10,7 @@
                 value-class="pick-value">
         </van-cell>
         <div class="comments">
-            <comment-item v-for="i in data"/>
+            <comment-item v-for="(comment,index) in comments" :key="index" :comment="comment" />
         </div>
     </div>
 </template>
@@ -20,10 +20,18 @@
 
     export default {
         name: "DetailComments",
+        props: {
+            comments: {
+                type: Array,
+                default: () => {
+                    return []
+                }
+            }
+        },
         components: {CommentItem},
-        data(){
-            return{
-                data:[1,2]
+        data() {
+            return {
+                data: [1, 2]
             }
         }
     }
@@ -36,10 +44,13 @@
         background: white;
         margin-bottom: 10px;
     }
-    .pick-title{
-        font-size: 17px;font-weight: bold
+
+    .pick-title {
+        font-size: 17px;
+        font-weight: bold
     }
-    .pick-value{
+
+    .pick-value {
         color: red;
     }
 </style>

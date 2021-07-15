@@ -21,7 +21,7 @@
             value:{
                 type:String,
                 default:"请选择颜色/内存/容量"
-            }
+            },
         },
         methods:{
             doPick(){

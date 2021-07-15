@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <detail-img-swiper/>
+        <detail-img-swiper :top-imgs="images"/>
 
         <div class="wrapper">
             <div class="noname">
             <span class="goods-price left">
-                <span class="goods-price-prefix">￥</span>9999.00
+                <span class="goods-price-prefix">￥</span>{{baseInfo.price}}
             </span>
                 <span class="right goods-favor">
                 <van-icon name="like" style="display: block" size="16"/>
@@ -13,7 +13,7 @@
             </span>
             </div>
             <div class="goods-title">
-                Apple iPhone 12 (A2404) 128GB 黑色 支持移动联通电信5G 双卡双待手机
+                {{baseInfo.title}}
             </div>
         </div>
 
@@ -26,7 +26,32 @@
 
     export default {
         name: "DetailBaseInfo",
-        components:{
+        props: {
+            images: {
+                default: () => {
+                    return [
+                        '40192419930800HDwL.jpg',
+                        '40192464231900tOcM.jpg',
+                        '40192508022100NdvA.jpg',
+                        '40192316617200yTOE.jpg',
+                        '40192253848300MBEm.jpg',
+                        '40192290713300GXaj.jpg',
+                    ]
+                },
+                type: Array
+            },
+            baseInfo: {
+                default: () => {
+                    return {
+                        price: 9999,
+                        name: "iPhone 12",
+                        title: " Apple iPhone 12 (A2404) 128GB 黑色 支持移动联通电信5G 双卡双待手机 "
+                    }
+                },
+                type: Object
+            }
+        },
+        components: {
             DetailImgSwiper
         }
 
@@ -35,39 +60,45 @@
 
 <style scoped>
 
-    .goods-price-prefix{
+    .goods-price-prefix {
         font-size: 18px;
     }
-    .wrapper{
+
+    .wrapper {
         padding-right: 20px;
         padding-left: 20px;
 
     }
-    .goods-title{
+
+    .goods-title {
         line-height: 24px;
         font-weight: bold;
         color: #000000;
         font-size: 18px;
     }
-    .goods-price{
+
+    .goods-price {
         color: #ff0000;
         font-size: 30px;
         font-weight: bold;
     }
-    .noname{
+
+    .noname {
         padding-top: 15px;
         min-height: 50px;
         margin-bottom: 10px;
 
     }
-    .container{
+
+    .container {
         background: white;
 
         padding-bottom: 10px;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
-    .goods-favor{
+
+    .goods-favor {
         text-align: center;
         font-size: 12px;
     }

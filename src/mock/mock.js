@@ -139,7 +139,7 @@ export const sku = {
             k_s: 's2', // skuKeyStr：sku 组合列表（下方 list）中当前类目对应的 key 值，value 值会是从属于当前类目的一个规格值 id
             v: [
                 {
-                    id: 3, // skuValueId：规格值 id
+                    id: 3, // skuValueId：规格值 id   // skuItemId
                     name: '8G', // skuValueName：规格值名称
                 },
                 {
@@ -153,35 +153,35 @@ export const sku = {
     // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
     list: [
         {
-            id: 2259, // skuId
+            id: 2259, // skuId product_item_id
             s1: 1, // 规格类目 k_s 为 s1 的对应规格值 id
             s2: 3, // 规格类目 k_s 为 s2 的对应规格值 id
-            price: 0, // 价格（单位分）
+            price: 11, // 价格（单位分）
             stock_num: 110 // 当前 sku 组合对应的库存
         },
         {
             id: 2229, // skuId
             s1: 1, // 规格类目 k_s 为 s1 的对应规格值 id
             s2: 4, // 规格类目 k_s 为 s2 的对应规格值 id
-            price: 100, // 价格（单位分）
+            price: 15, // 价格（单位分）
             stock_num: 110 // 当前 sku 组合对应的库存
         },
         {
             id: 2359, // skuId
             s1: 2, // 规格类目 k_s 为 s1 的对应规格值 id
             s2: 3, // 规格类目 k_s 为 s2 的对应规格值 id
-            price: 100, // 价格（单位分）
+            price: 54, // 价格（单位分）
             stock_num: 110 // 当前 sku 组合对应的库存
         },
         {
             id: 2259, // skuId
             s1: 2, // 规格类目 k_s 为 s1 的对应规格值 id
             s2: 4, // 规格类目 k_s 为 s2 的对应规格值 id
-            price: 100, // 价格（单位分）
-            stock_num: 0 // 当前 sku 组合对应的库存
+            price: 33, // 价格（单位分）
+            stock_num: 99 // 当前 sku 组合对应的库存
         }
     ],
-    price: '1.00', // 默认价格（单位元）
+    price: 999.9, // 默认价格（单位元）
     stock_num: 227, // 商品总库存
     collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
     none_sku: false, // 是否无规格商品

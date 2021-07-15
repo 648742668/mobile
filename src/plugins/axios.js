@@ -2,10 +2,11 @@
 
 import Vue from 'vue';
 import axios from "axios";
-import { Notify } from 'vant';
+import {Notify} from 'vant';
 import store from '@/store'
 import qs from 'qs'
 import {BASE_URL} from "../config/config";
+
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
@@ -99,7 +100,9 @@ Vue.prototype.get = (url, params, callback) => {
 
 Vue.prototype.post = (url, params, callback) => {
   request(url, 'post', params,response =>{
-    Notify(response.message)
+    if (response.message){
+      Notify(response.message)
+    }
     callback(response.data)
   })
 }

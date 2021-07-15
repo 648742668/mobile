@@ -120,11 +120,10 @@ const routes = [
     component: () => import('@/views/me/setting/address/index'),
   },
   {
-<<<<<<< HEAD
     path: '/addressEdit',
     name: 'addressEdit',
     component: () => import('@/views/me/setting/address/edit'),
-=======
+  },{
     path: '/me',
     name: 'Me',
     // route level code-splitting
@@ -152,6 +151,11 @@ const routes = [
     name: 'Favorite',
     component: () => import('../views/me/favorite')
 >>>>>>> ajy
+  },
+  {
+    path: '/comments',
+    name: 'comments',
+    component: () => import('@/views/comments/index'),
   }
 ]
 

@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import store from '@/store'
-
 
 Vue.use(VueRouter)
 
@@ -103,7 +101,6 @@ const routes = [
     name: 'forgetPassword',
     component: () => import('@/views/password/forgetPassword')
   },
-  ,
   {
     path: '/changePwd',
     name: 'changePassword',
@@ -150,7 +147,6 @@ const routes = [
     path: '/favorite',
     name: 'Favorite',
     component: () => import('../views/me/favorite')
->>>>>>> ajy
   },
   {
     path: '/comments',

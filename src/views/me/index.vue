@@ -1,12 +1,14 @@
 <template>
     <div>
-        我的
+        <order></order>
     </div>
 </template>
 
 <script>
+    import order from "./order";
     export default {
-        name: "Me"
+        name: "Me",
+        components: {order}
     }
 </script>
 

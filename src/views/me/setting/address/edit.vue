@@ -18,9 +18,6 @@
         @delete="onDelete"
         @change-detail="onChangeDetail"
     />
-    <div>
-      <van-button @click="query">查看</van-button>
-    </div>
   </div>
 
 </template>
@@ -51,54 +48,52 @@ export default {
     }
   },
   data() {
-    const  module = '/address'
+    const module = '/address'
     return {
-      url:{
-        getone:module+'/getone'
+      url: {
+        getone: module + '/getone'
       },
-      AddressInfo:{
-        name:'',//姓名
-        tel:'',//电话
-        province:'',//省份
-        city:'',//城市
-        country:'',//区县
-        areaCode:'',//地址code：ID
-        addressDetail:'',//详细地址
-        isDefault:false,//是否选择默认
+      AddressInfo: {
+        name: '',//姓名
+        tel: '',//电话
+        province: '',//省份
+        city: '',//城市
+        country: '',//区县
+        areaCode: '',//地址code：ID
+        addressDetail: '',//详细地址
+        isDefault: false,//是否选择默认
       },
       areaList: areaList,
       searchResult: [],
     }
   },
   methods: {
-    getone(){
-      this.get(this.url.getone,{id:this.$route.params.addressId},response=>{
-        console.log(response)
+    getone() {
+      this.get(this.url.getone, {id: this.$route.params.addressId}, response => {
+        this.AddressInfo.name = response.recvName
+        this.AddressInfo.tel = response.recvPhone
+        this.AddressInfo.areaCode = response.county
+        this.AddressInfo.addressDetail = response.address
+        this.AddressInfo.province = areaList.province_list[response.province]
+        this.AddressInfo.city = areaList.city_list[response.city]
+        this.AddressInfo.country = areaList.county_list[response.county]
+        if (response.firstPick === 1) {
+          this.AddressInfo.isDefault = true
+        }
       })
     },
     onSave(content) {
       console.log(content)
     },
     onDelete() {
-      console.log(this.$route.params.address)
+
     },
     onChangeDetail(val) {
-      if (val) {
-        this.searchResult = [
-          {
-            name: '黄龙万科中心',
-            address: '杭州市西湖区',
-          },
-        ];
-      } else {
-        this.searchResult = [];
-      }
+
     },
     onClickLeft() {
       this.$router.back();
     },
-    query() {
-    }
   }
 }
 </script>

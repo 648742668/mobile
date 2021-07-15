@@ -54,7 +54,7 @@
                 <br/>
                 下单时间： &nbsp;&nbsp;&nbsp; {{ order.createTime }}
                 <br/>
-                更新时间： &nbsp;&nbsp;&nbsp; {{ order.updateTime }}
+                <span v-if="order.status !==1">更新时间： &nbsp;&nbsp;&nbsp; {{ order.updateTime }}</span>
             </template>
         </van-cell>
 
@@ -91,7 +91,7 @@
             <van-submit-bar
                     style="margin-bottom: 50px"
                     button-text="写评价"
-                    @submit="buyAgain">
+                    @submit="goToComment">
                 <van-button class="btnLeft" @click="cancel" style="width: 100px; margin-right: 150px">退货/换货</van-button>
             </van-submit-bar>
         </div>
@@ -143,15 +143,24 @@
 				})
 			},
 			buyAgain() {
-				// TODO
-			}
+				this.post('/order/buAgain', {orderId: this.order.orderId}, res => {
+					this.onClickLeft()
+				})
+			},
+			goToComment() {
+				this.$router.push({
+                    path: '/comment',
+                    query: {
+                    	order: this.order
+                    }
+                })
+            }
 		},
 		created() {
 			this.order = this.$route.query.order
 			if (this.order.status !== 5 && this.order.status !== 6) {
 				this.active = this.order.status
 			}
-			console.log(this.order)
 		}
 	}
 </script>
@@ -161,6 +170,7 @@
         width: 100vw;
         height: 100vh;
         background-color: #F2F2F2;
+        overflow: scroll;
 
         .status {
             background-color: white;

@@ -13,7 +13,7 @@
         </div>
         <div class="price">
             <div class="money">
-                ￥{{ orderItem.price * orderItem.count }}
+                ￥{{ Number(orderItem.price * orderItem.count).toFixed(2) }}
             </div>
             <div v-if="orderItem.count > 1" class="cnt">
                 <br/>

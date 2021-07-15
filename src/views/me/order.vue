@@ -33,23 +33,23 @@
             </van-cell>
             <div class="btnGroup">
                 <div v-if="order.status === 1" class="btn">
-                    <van-button round type="default" plain size="mini">取消订单</van-button>
-                    <van-button round type="danger" plain size="mini">去支付</van-button>
+                    <van-button round type="default" plain size="mini" @click="cancel(order.orderId)">取消订单</van-button>
+                    <van-button round type="danger" plain size="mini" @click="checkout(order.orderId)">去支付</van-button>
                 </div>
                 <div v-if="order.status === 2 || order.status === 3" class="btn">
-                    <van-button round type="default" plain size="mini">取消订单</van-button>
-                    <van-button round type="danger" plain size="mini">再次购买</van-button>
+                    <van-button round type="default" plain size="mini" @click="cancel(order.orderId)">取消订单</van-button>
+                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.orderId)">再次购买</van-button>
                 </div>
                 <div v-if="order.status === 4" class="btn">
                     <van-button round type="default" plain size="mini">退货/换货</van-button>
-                    <van-button round type="danger" plain size="mini">去评价</van-button>
+                    <van-button round type="danger" plain size="mini" @click="goToComment(order.orderId)">去评价</van-button>
                 </div>
                 <div v-if="order.status === 5" class="btn">
                     <van-button round type="default" plain size="mini">退货/换货</van-button>
-                    <van-button round type="danger" plain size="mini">再次购买</van-button>
+                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.orderId)">再次购买</van-button>
                 </div>
                 <div v-if="order.status === 6" class="btn">
-                    <van-button round type="danger" plain size="mini">重新购买</van-button>
+                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.orderId)">重新购买</van-button>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 }
                 this.get('/order/getOrders', {consumerId: 1, status: status}, res => {
                 	this.orders = res.reverse()
-					console.log(res)
+					// console.log(res)
                 })
             },
 			getStatus(order) {
@@ -114,7 +114,32 @@
 					})
 				})
 
-            }
+            },
+			checkout(orderId) {
+				// TODO
+			},
+			cancel(orderId) {
+				this.post('/order/cancel', {orderId: orderId}, res => {
+					this.onClickLeft()
+				})
+			},
+			buyAgain(orderId) {
+				this.post('/order/buAgain', {orderId: orderId}, res => {
+					this.onClickLeft()
+				})
+			},
+			goToComment(orderId) {
+		    	for(let i = 0; i < this.orders.length; i++) {
+		    		if (orderId === this.orders[i].orderId) {
+						this.$router.push({
+							path: '/comment',
+							query: {
+								order: this.orders[i]
+							}
+						})
+                    }
+                }
+			}
         },
         created() {
 			this.getOrders()

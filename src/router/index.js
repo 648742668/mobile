@@ -55,6 +55,21 @@ const routes = [
     path: '/orderDetail',
     name: 'OrderDetail',
     component: () => import('../views/me/orderDetail')
+  },
+  {
+    path: '/comment',
+    name: 'Comment',
+    component: () => import('../views/me/comment')
+  },
+  {
+    path: '/footPrint',
+    name: 'FootPrint',
+    component: () => import('../views/me/footPrint')
+  },
+  {
+    path: '/favorite',
+    name: 'Favorite',
+    component: () => import('../views/me/favorite')
   }
 ]
 

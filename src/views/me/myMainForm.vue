@@ -33,16 +33,17 @@ export default {
   name: "myMainForm",
   created() {
     if (this.$store.getters.GET_TOKEN) {
+      this.url.toAll = "{path: '/order', query: {active: 0}}"
       this.myList = [
-        {message: '收藏', img: 'star-o', to: '/forgetPwd'},
-        {message: '足迹', img: 'clock-o', to: '/forgetPwd'},
+        {message: '收藏', img: 'star-o', to: '/favorite'},
+        {message: '足迹', img: 'clock-o', to: '/footPrint'},
       ]
       this.myItemList=[
-        {message: '待付款', img: 'balance-list-o', to: '/forgetPwd'},
-        {message: '待收货', img: 'logistics', to: '/forgetPwd'},
-        {message: '评价', img: 'chat-o', to: '/forgetPwd'},
-        {message: '已完成', img: 'completed', to: '/forgetPwd'},
-        {message: '已取消', img: 'failure', to: '/forgetPwd'},
+        {message: '待付款', img: 'balance-list-o', to: "{path: '/order', query: {active: 1}}"},
+        {message: '待收货', img: 'logistics', to: "{path: '/order', query: {active: 2}}"},
+        {message: '待评价', img: 'chat-o', to: "{path: '/order', query: {active: 3}}"},
+        {message: '已完成', img: 'completed', to: "{path: '/order', query: {active: 4}}"},
+        {message: '已取消', img: 'failure', to: "{path: '/order', query: {active: 5}}"},
       ]
     }
   },

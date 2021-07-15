@@ -10,7 +10,7 @@
                 value-class="pick-value">
         </van-cell>
         <div class="comments">
-            <comment-item v-for="i in data"/>
+            <comment-item v-for="i in data" :key="i"/>
         </div>
     </div>
 </template>

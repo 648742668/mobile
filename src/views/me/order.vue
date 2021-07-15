@@ -2,6 +2,11 @@
     <div class="container">
         <div class="header">
             <van-sticky>
+                <van-nav-bar
+                        title="我的订单"
+                        left-text="返回"
+                        left-arrow
+                        @click-left="onClickLeft"/>
                 <van-tabs v-model="active" sticky @change="getOrders">
                     <van-tab title="全部"></van-tab>
                     <van-tab title="待付款"></van-tab>
@@ -60,7 +65,7 @@
 <script>
     import orderItemCard from "./components/orderItemCard";
 	export default {
-		name: "order",
+		name: "Order",
         components: { orderItemCard },
         data() {
             return {
@@ -69,6 +74,11 @@
             }
 		},
         methods: {
+			onClickLeft() {
+				this.$router.push({
+                    path: '/me'
+                })
+            },
 		    getOrders() {
 		    	let status = []
 		    	if(this.active < 2) {
@@ -142,6 +152,7 @@
 			}
         },
         created() {
+			this.active = this.$route.query.active
 			this.getOrders()
 		}
 	}

@@ -11,9 +11,6 @@ import { Toast } from 'vant';
 
 import FastClick from 'fastclick'
 
-
-
-
 Vue.use(Toast);
 Vue.use(Vant);
 

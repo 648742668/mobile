@@ -103,7 +103,6 @@ const routes = [
     name: 'forgetPassword',
     component: () => import('@/views/password/forgetPassword')
   },
-  ,
   {
     path: '/changePwd',
     name: 'changePassword',
@@ -120,16 +119,13 @@ const routes = [
     component: () => import('@/views/me/setting/address/index'),
   },
   {
-<<<<<<< HEAD
     path: '/addressEdit',
     name: 'addressEdit',
     component: () => import('@/views/me/setting/address/edit'),
-=======
+  },
+  {
     path: '/me',
     name: 'Me',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/me/index')
   },
   {
@@ -151,7 +147,11 @@ const routes = [
     path: '/favorite',
     name: 'Favorite',
     component: () => import('../views/me/favorite')
->>>>>>> ajy
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    component: () => import('../views/me/order')
   }
 ]
 

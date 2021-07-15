@@ -5,15 +5,16 @@
           v-model="password"
           :type="passwordType"
           :placeholder="placeholder"
+          round
+          @input="$emit('input',password)"
           clearable
-          :rules="[{required: true, message: '请填写密码' }]">
-        <template slot="left-icon" style="width: 20px">
+          :rules="this.rule">
+        <template slot="left-icon">
           <van-image
-              style="width: 50px;height: 20px"
+              style="width: 25px;margin-right: 38px"
               :src="img"
-          @click.stop="switchPasswordType">
+              @click.stop="switchPasswordType">
           </van-image>
-
         </template>
       </van-field>
     </template>
@@ -38,24 +39,31 @@ export default {
       type: String,
       default: '请输入密码'
     },
+
+
   },
   created() {
     this.password = this.inputValue
-    this.img = this.passwordType ==='password'?this.closeImg:this.openImg
+    this.img = this.passwordType === 'password' ? this.closeImg : this.openImg
+
   },
   data() {
     return {
       password: '',
       passwordType: 'password',
-      openImg:require('../../assets/passwordOpen.png'),
-      closeImg:require('../../assets/passwordClose.png'),
-      img:''
+      openImg: require('../../assets/password/passwordOpen.png'),
+      closeImg: require('../../assets/password/passwordClose.png'),
+      img: '',
+      rule: [
+          {required: true, message: '请填写密码', trigger: 'blur'},
+        // {pattern: /^[a-zA-Z]\w{4,50}$/, message: '第一个字符必须是英文，长度超过4个字符字符'}
+        ]
     }
   },
-  methods:{
-    switchPasswordType(){
+  methods: {
+    switchPasswordType() {
       this.passwordType = this.passwordType === 'password' ? 'text' : 'password'
-      this.img = this.passwordType ==='password'?this.closeImg:this.openImg
+      this.img = this.passwordType === 'password' ? this.closeImg : this.openImg
     }
   }
 }

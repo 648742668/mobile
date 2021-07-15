@@ -10,7 +10,7 @@
 <script>
 
 export default {
-  name: "Login",
+  name: "loginIndex",
   created() {
 
   },

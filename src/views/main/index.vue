@@ -53,6 +53,7 @@
     import BackTop from "../../components/content/backtop/BackTop";
     import {backTopMixin, itemLoadListenerMixin} from "../../common/mixin";
     import SearchNavBar from "../../components/search_input/SearchNavBar";
+
     import MainHot from "./component/MainHot";
 
     const basePrefix="/mb-product"
@@ -97,10 +98,14 @@
         },
         methods: {
             getHomeMultiData() {
+                // getHomeMultiData().then(res => {
+                //     // console.log(res);
                     this.recommends1 = recommends1;
                     this.recommends2 = recommends2;
                     this.banner = banner
                 this.hots=hots
+                    this.hots=hots
+                // })
             },
             getGoodsData(type) {
                 let page = this.goods[type].page + 1;

@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+
+//sadasd
 export default new Vuex.Store({
   state: {
     token: '',

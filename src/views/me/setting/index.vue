@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import {IMG_URL} from "@/config/config";
 export default {
   name: "settingIndex",
   data() {
@@ -39,7 +40,8 @@ export default {
   },
   created() {
     if (this.$store.getters.GET_TOKEN) {
-
+      this.name = this.$store.getters.GET_CONSUMER.nickname
+      this.loginImg = IMG_URL+this.$store.getters.GET_CONSUMER.img
     }
   },
   methods: {

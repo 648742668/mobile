@@ -98,7 +98,12 @@ const routes = [
   {
     path: '/address',
     name: 'addressList',
-    component: () => import('@/views/me/setting/address'),
+    component: () => import('@/views/me/setting/address/index'),
+  },
+  {
+    path: '/addressEdit',
+    name: 'addressEdit',
+    component: () => import('@/views/me/setting/address/edit'),
   }
 ]
 

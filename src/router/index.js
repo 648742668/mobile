@@ -120,9 +120,38 @@ const routes = [
     component: () => import('@/views/me/setting/address/index'),
   },
   {
+<<<<<<< HEAD
     path: '/addressEdit',
     name: 'addressEdit',
     component: () => import('@/views/me/setting/address/edit'),
+=======
+    path: '/me',
+    name: 'Me',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/me/index')
+  },
+  {
+    path: '/orderDetail',
+    name: 'OrderDetail',
+    component: () => import('../views/me/orderDetail')
+  },
+  {
+    path: '/comment',
+    name: 'Comment',
+    component: () => import('../views/me/comment')
+  },
+  {
+    path: '/footPrint',
+    name: 'FootPrint',
+    component: () => import('../views/me/footPrint')
+  },
+  {
+    path: '/favorite',
+    name: 'Favorite',
+    component: () => import('../views/me/favorite')
+>>>>>>> ajy
   }
 ]
 

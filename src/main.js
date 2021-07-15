@@ -16,6 +16,7 @@ import FastClick from 'fastclick'
 
 Vue.use(Toast);
 Vue.use(Vant);
+
 Vue.use(VanImage);
 Vue.use(VueLazyLoad, {
     loading: require("./assets/img/ddd.png")
@@ -23,6 +24,7 @@ Vue.use(VueLazyLoad, {
 Vue.config.productionTip = false
 Vue.prototype.$bus = new Vue()
 // Vue.use(toast)
+
 new Vue({
     router,
     store,

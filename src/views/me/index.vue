@@ -1,4 +1,5 @@
 <template>
+
   <div style="height:95vh ; background: #f2f2f2;">
     <div id="my_head">
       <component
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+
 
 import {IMG_URL} from "@/config/config";
 

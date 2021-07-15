@@ -29,7 +29,7 @@
                         :price="totalPrice"
                         button-text="去结算"
                         :disabled="totalPrice == 0"
-                        @submit="show">
+                        @submit="checkout">
             <van-checkbox v-model="select" @click="selectAll" checked-color="#ee0a24">全选</van-checkbox>
         </van-submit-bar>
         <div class="delBar" v-if="edit">
@@ -78,7 +78,7 @@
 			console.log(this.category)
             this.get(this.url.getCart,{userId: 1, categories: this.category}, res => {
             	console.log(res)
-            	this.cart = res
+            	this.cart = res.reverse()
             })
 		},
         methods: {
@@ -132,8 +132,8 @@
                 	this.editChecked = []
                 })
 			},
-            show() {
-				this.$emit('update:show', true)
+			checkout() {
+
             }
         },
 	}
@@ -160,6 +160,7 @@
         position: fixed;
         bottom: 50px;
         left: 0;
+        background-color: white;
 
         .btnAll {
             float: left;

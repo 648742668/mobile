@@ -21,7 +21,9 @@
             </div>
             <div class="price">
                 ￥
-                <span style="font-weight: bolder; font-size: 22px">{{ item.price * item.count }}</span>
+                <span style="font-weight: bolder; font-size: 22px">
+                    {{Number(item.price * item.count).toFixed(2)}}
+                </span>
                 <van-stepper v-model="item.count"
                              disable-input
                              :max="item.stock"

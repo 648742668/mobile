@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import store from '@/store'
-
 
 Vue.use(VueRouter)
 
@@ -123,6 +121,11 @@ const routes = [
     path: '/addressEdit',
     name: 'addressEdit',
     component: () => import('@/views/me/setting/address/edit'),
+  },
+  {
+    path: '/comments',
+    name: 'comments',
+    component: () => import('@/views/comments/index'),
   }
 ]
 

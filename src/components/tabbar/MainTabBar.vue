@@ -2,7 +2,7 @@
     <div>
         <van-tabbar
                 :border="true"
-                v-model="active"
+                v-model="getActive"
                 @change="onChange"
                 active-color="#ff0000">
             <van-tabbar-item icon="wap-home" name="/main">主页</van-tabbar-item>
@@ -17,21 +17,31 @@
 
     export default {
 
-      name: "MainTabBar",
-        components:{
-        },
-        data(){
+        name: "MainTabBar",
+        components: {},
+        data() {
             return {
-                active:"/main"
+                active: "/main",
+                paths: ["/main", "/category", "/cart", "/me"]
             }
         },
         methods: {
             onChange(index) {
-                if(index !== this.$route.path)
+                if (index !== this.$route.path)
                     this.$router.push(index)
                 console.log(index)
             },
         },
+        computed: {
+            getActive: {
+                get() {
+                    return this.$route.path
+                },
+                set(value) {
+                    this.active = value
+                }
+            }
+        }
     }
 </script>
 

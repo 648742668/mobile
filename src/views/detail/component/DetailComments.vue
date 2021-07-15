@@ -7,7 +7,8 @@
                 title="商品评价"
                 value="查看更多"
                 title-class="pick-title"
-                value-class="pick-value">
+                value-class="pick-value"
+                @click="goComments()">
         </van-cell>
         <div class="comments">
             <comment-item v-for="(comment,index) in comments" :key="index" :comment="comment" />
@@ -21,6 +22,10 @@
     export default {
         name: "DetailComments",
         props: {
+            productId:{
+              type: Number,
+              required:true
+            },
             comments: {
                 type: Array,
                 default: () => {
@@ -32,6 +37,11 @@
         data() {
             return {
                 data: [1, 2]
+            }
+        },
+        methods:{
+            goComments(){
+                this.$router.push({path:"/comments",query:{productId:this.productId}})
             }
         }
     }

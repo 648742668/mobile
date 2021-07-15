@@ -28,11 +28,12 @@
                 :listenScroll="true"
                 :probeType='3'>
             <detail-base-info
+                    :id="id"
                     ref="baseInfo"
                     :base-info="baseInfo"
                     :images="images"/>
             <detail-pick-choice @doPick="doPick" v-model="skuPicksString"/>
-            <detail-comments ref="comment" :comments="comments"/>
+            <detail-comments ref="comment" :comments="comments" :product-id="id"/>
             <detail-spu ref="spu" :spu-list="spuList"/>
             <detail-content :html="detailHtml" ref="detail"/>
         </scroll>
@@ -77,8 +78,10 @@
     import {IMG_URL} from "../../config/config";
     import {SkuElMixin} from "../../common/mixin";
     import Sku from "../../components/content/sku/Sku";
+    import {Toast} from "vant";
 
     const basePrefix = "/mb-product"
+    const cartBasePrefix = "/cart"
     export default {
         name: "Detail",
         components: {
@@ -113,16 +116,24 @@
                 comments: [],
                 spuList: [],
                 skuNames: [],
-                skuList:[],
-                skuPicksString:""
+                skuList: [],
+                skuPicksString: ""
             }
         }, created() {
-            this.id = this.$route.query['id']
+            this.id = parseInt(this.$route.query['id'])
+            if (this.$store.getters.GET_TOKEN){
+                console.log(this.$store.getters.GET_CONSUMER.id)
+                let cid = this.$store.getters.GET_CONSUMER.id
+                this.post(basePrefix + '/add_footprint',{pid:this.id,cid:cid},obj=>{
+
+                })
+            }
             this.get(basePrefix + "/getOne", {id: this.id}, obj => {
                 let pics = obj.pics.split(",")
                 this.images.push(obj.img)
                 this.goods.picture = IMG_URL + obj.img
                 this.images.push(...pics)
+                this.baseInfo.id = obj.id
                 this.baseInfo.price = obj.price
                 this.baseInfo.name = obj.name
                 this.baseInfo.title = obj.keywords
@@ -147,9 +158,6 @@
             }, 300)
 
         },
-        computed: {
-
-        },
 
         methods: {
             getSkuPicks() {
@@ -157,18 +165,18 @@
                 for (let i = 0; i < this.skuNames.length; i++) {
                     temp += this.skuNames[i] + "/"
                 }
-                this.skuPicksString =  temp.substring(0, temp.length - 1)
+                this.skuPicksString = temp.substring(0, temp.length - 1)
             },
-            skuSelected(args){
+            skuSelected(args) {
                 let {selectedSku} = args
                 let index = 0
-                for(let key in selectedSku){
+                for (let key in selectedSku) {
                     let skuItemId = selectedSku[key]
                     let skuId = parseInt(key.substring(1))
-                    for(let sku of this.skuList){
-                        if ('number' === typeof skuItemId && sku.id === skuId){
-                            for (let skuItem of sku.items){
-                                if (skuItem.id === skuItemId){
+                    for (let sku of this.skuList) {
+                        if ('number' === typeof skuItemId && sku.id === skuId) {
+                            for (let skuItem of sku.items) {
+                                if (skuItem.id === skuItemId) {
                                     this.skuNames[index] = skuItem.value
                                     break
                                 }
@@ -180,19 +188,33 @@
                 }
                 this.getSkuPicks()
             },
-            onBuyClicked() {
+            onBuyClicked(skuData) {
                 Notify('已下单');
-                console.log(arguments)
+
                 this.showSku = false
             }
             ,
-            onAddCartClicked() {
-                Notify('已加入购物车');
-                console.log(arguments)
-                this.showSku = false
+            onAddCartClicked(skuData) {
+                let data = {
+                    consumerId:this.$store.getters.GET_CONSUMER.id,
+                    productItemId:skuData.selectedSkuComb.id,
+                    count:skuData.selectedNum
+                }
+                this.post(cartBasePrefix+"/insert_cart",data,obj=>{
+                    if (obj){
+                        Toast("添加购物车成功")
+                        this.showSku = false
+                    }
+                })
             },
-            doOperation(){
-                this.showSku = true
+            doOperation() {
+                let token = this.$store.getters.GET_TOKEN;
+                if (token) {
+                    console.log(token)
+                    this.showSku = true
+                } else {
+                    this.$router.push("/login")
+                }
             },
             scroll(pos) {
                 let dis = -pos.y

@@ -16,6 +16,11 @@
         <div class="third-line van-multi-ellipsis--l3">
             {{comment.content}}
         </div>
+        <van-grid :column-num="3" v-show="getImages.length > 0" class="comment-grid" :gutter="3" square>
+            <van-grid-item v-for="value in getImages" :key="value" style="border-radius: 7px">
+                <img v-lazy="getFullUrl(value)" @load="imgLoad" class="comment-image">
+            </van-grid-item>
+        </van-grid>
     </div>
 </template>
 
@@ -24,6 +29,8 @@
 
     export default {
         name: "CommentItem",
+        created() {
+        },
         props: {
             comment: {
                 type: Object,
@@ -42,30 +49,53 @@
                 }
             }
         },
-        computed:{
-            getSkuList(){
+        methods: {
+            imgLoad() {
+                this.$bus.$emit("imgLoad")
+            },
+            getFullUrl(value) {
+                return IMG_URL + value
+            }
+        },
+        computed: {
+            getSkuList() {
                 let skus = ""
                 for (let i = 0; i < this.comment.skuList.length; i++) {
-                    skus+=this.comment.skuList[i]+","
+                    skus += this.comment.skuList[i] + ","
                 }
-                return skus.substring(0,skus.length - 1)
+                return skus.substring(0, skus.length - 1)
             },
-            getFullUri(){
+            getFullUri() {
                 return IMG_URL + this.comment.img
+            },
+            getImages() {
+                let images = []
+                let temp = this.comment.images.split(",")
+                for (let i = 0; i < 6 && temp.length; i++) {
+                    if (temp[i]) {
+                        images.push(temp[i])
+                    }
+                }
+                return images
             }
         }
     }
 </script>
 
 <style scoped>
+    .comment-image {
+
+    }
+
+    .comment-grid {
+        margin-top: 10px;
+    }
+
     .container {
         background: white;
         border-radius: 10px;
-        margin-top: 10px;
-        padding-right: 20px;
-        padding-left: 20px;
         font-size: 15px;
-        padding-bottom: 10px;
+        padding: 10px 20px;
     }
 
     .first-line {
@@ -104,5 +134,12 @@
 
     .third-line {
         margin-top: 3px;
+    }
+
+    .comment-image {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
     }
 </style>

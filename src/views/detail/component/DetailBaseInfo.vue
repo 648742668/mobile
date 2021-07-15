@@ -7,10 +7,11 @@
             <span class="goods-price left">
                 <span class="goods-price-prefix">￥</span>{{baseInfo.price}}
             </span>
-                <span class="right goods-favor">
+                <span class="right goods-favor" @click="doFavor" v-if="!isFavored">
                 <van-icon name="like" style="display: block" size="16"/>
                 收藏
             </span>
+                <span v-else class="right goods-favor"><van-icon name="like" color="#ff0000" style="display: block" size="16"/>已收藏</span>
             </div>
             <div class="goods-title">
                 {{baseInfo.title}}
@@ -23,10 +24,16 @@
 
 <script>
     import DetailImgSwiper from "./DetailImgSwiper";
+    import {Toast} from "vant";
 
+    const basePrefix = "/mb-product"
     export default {
         name: "DetailBaseInfo",
         props: {
+            id: {
+                required: true,
+                type: Number,
+            },
             images: {
                 default: () => {
                     return [
@@ -42,17 +49,43 @@
             },
             baseInfo: {
                 default: () => {
-                    return {
-                        price: 9999,
-                        name: "iPhone 12",
-                        title: " Apple iPhone 12 (A2404) 128GB 黑色 支持移动联通电信5G 双卡双待手机 "
-                    }
+                    return null
                 },
                 type: Object
             }
         },
+        data() {
+            return {
+                isFavored: false
+            }
+        },
         components: {
             DetailImgSwiper
+        },
+        mounted() {
+            this.isFavor()
+
+        },
+        methods: {
+            isFavor() {
+
+                if (this.$store.getters.GET_TOKEN) {
+                    let cid = this.$store.getters.GET_CONSUMER.id
+                    this.get(basePrefix + '/get_favor', {pid: this.id, cid: cid}, obj => {
+                        this.isFavored = obj
+                    })
+                }
+            },
+            doFavor() {
+                if (this.$store.getters.GET_TOKEN) {
+                    let cid = this.$store.getters.GET_CONSUMER.id
+                    this.post(basePrefix + '/add_favor', {pid: this.baseInfo.id, cid: cid}, obj => {
+                        Toast("收藏成功")
+                    })
+                } else {
+                    Toast("请先登录!")
+                }
+            }
         }
 
     }

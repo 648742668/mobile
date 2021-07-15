@@ -101,7 +101,7 @@ export default {
 @img: 100px;
 #top {
   margin-top: @top_top;
-  margin-left: @top_left;
+  text-align:center;
 }
 
 #main {
@@ -112,7 +112,9 @@ export default {
 .img {
   width: @img;
   height: @img;
+  display: inline-block;
 }
+
 
 .button {
   height: 50px;

@@ -112,8 +112,17 @@ const routes = [
   {
     path: '/userSetting',
     name: 'settingIndex',
-    //登录界面路径
-    component: () => import('@/views/me/setting')
+    component: () => import('@/views/me/setting'),
+  },
+  {
+    path: '/address',
+    name: 'addressList',
+    component: () => import('@/views/me/setting/address/index'),
+  },
+  {
+    path: '/addressEdit',
+    name: 'addressEdit',
+    component: () => import('@/views/me/setting/address/edit'),
   }
 ]
 

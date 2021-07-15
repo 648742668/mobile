@@ -176,12 +176,11 @@ export default {
 <style scoped lang="less">
 
 .signForm {
-  margin-left: 30px;
+  text-align:center;
   margin-top: 100px;
-
   .title {
-    margin-left: 30vw;
     margin-bottom: 3vh;
+    display: inline-block;
   }
 
   .button {
@@ -190,8 +189,8 @@ export default {
     border: none;
     background: #1989fa;
     color: white;
-    margin-left: 10vw;
     margin-top: 3vh;
+    display: inline-block;
   }
 
 }

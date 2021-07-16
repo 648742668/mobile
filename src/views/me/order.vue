@@ -18,6 +18,10 @@
             </van-sticky>
         </div>
 
+        <div v-if="orders.length === 0" style="margin: 20px auto; text-align: center">
+            暂无订单
+        </div>
+
         <div v-for="order in orders"
              :key="order.id"
              class="order">
@@ -151,8 +155,14 @@
                 }
 			}
         },
-        created() {
+        beforeMount() {
 			this.active = this.$route.query.active
+			console.log(this.active)
+			this.getOrders()
+		},
+		created() {
+			this.active = this.$route.query.active
+            console.log(this.active)
 			this.getOrders()
 		}
 	}
@@ -161,7 +171,7 @@
 <style scoped lang="less">
     .container {
         width: 100vw;
-        height: calc(100vh - 50px);
+        height: calc(100vh);
         background-color: #F2F2F2;
         overflow: scroll;
 

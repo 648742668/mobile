@@ -71,7 +71,6 @@
         <div v-if="order.status === 1">
             <van-submit-bar
                     :price="order.totalPrice * 100"
-                    style="margin-bottom: 50px"
                     button-text="去支付"
                     @submit="checkout">
                 <van-button class="btnLeft" @click="cancel">取消订单</van-button>
@@ -80,7 +79,6 @@
 
         <div v-if="order.status < 4 && order.status > 1">
             <van-submit-bar
-                    style="margin-bottom: 50px"
                     button-text="再次购买"
                     @submit="buyAgain">
                 <van-button class="btnLeft" @click="cancel" style="width: 100px; margin-right: 150px">取消订单</van-button>
@@ -89,7 +87,6 @@
 
         <div v-if="order.status === 4">
             <van-submit-bar
-                    style="margin-bottom: 50px"
                     button-text="写评价"
                     @submit="goToComment">
                 <van-button class="btnLeft" @click="cancel" style="width: 100px; margin-right: 150px">退货/换货</van-button>
@@ -98,7 +95,6 @@
 
         <div v-if="order.status === 5">
             <van-submit-bar
-                    style="margin-bottom: 50px"
                     button-text="再次购买"
                     @submit="buyAgain">
                 <van-button class="btnLeft" @click="cancel" style="width: 100px; margin-right: 150px">退货/换货</van-button>
@@ -107,7 +103,6 @@
 
         <div v-if="order.status === 6">
             <van-submit-bar
-                    style="margin-bottom: 50px"
                     button-text="重新购买"
                     @submit="buyAgain">
             </van-submit-bar>

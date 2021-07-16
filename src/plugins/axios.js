@@ -28,6 +28,7 @@ _axios.interceptors.request.use(
       if (store.getters.GET_TOKEN){
         config.headers['token'] = store.getters.GET_TOKEN
       }
+      config.headers['where'] = 'mobile'
       //重新定义数组序列化
       config.paramsSerializer = (params) =>{
         return qs.stringify(params,{arrayFormat: 'repeat'})

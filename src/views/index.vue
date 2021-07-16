@@ -1,14 +1,16 @@
 <template>
   <div>
-    <router-view/>
-    <main-tab-bar style="height: 20px;"></main-tab-bar>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
+    <main-tab-bar></main-tab-bar>
   </div>
 </template>
 
 <script>
-  import MainTabBar from "../components/tabbar/MainTabBar";
+    import MainTabBar from "../components/tabbar/MainTabBar";
 
-  export default {
+    export default {
   name: "Index",
   components: {
     MainTabBar

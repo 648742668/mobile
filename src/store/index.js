@@ -14,6 +14,7 @@ export default new Vuex.Store({
     token: '',
     consumer:{},
     changePwd:'',
+    saveY:0
   },
   mutations: {
     SET_TOKEN(state, token) {
@@ -25,8 +26,14 @@ export default new Vuex.Store({
     SET_CHANGEPWD(state, changePwd) {
       state.changePwd = changePwd
     },
+    SET_SAVE_Y(state, saveY){
+      state.saveY = saveY
+    }
   },
   getters:{
+    GET_SAVE_Y(state){
+      return state.saveY
+    },
     GET_TOKEN(state) {
       return state.token
     },

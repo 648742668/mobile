@@ -10,7 +10,7 @@
                 </span>
             </div>
             <div>
-                <span v-for="(item,index) in history" :key="index" class="search-content">
+                <span v-for="(item,index) in history" :key="index" class="search-content" @click="enter(item)">
                     {{item}}
                 </span>
             </div>
@@ -26,7 +26,7 @@
                 </span>
             </div>
             <div v-show="showHot">
-                <span v-for="(item,index) in hot" :key="index" class="search-content">
+                <span v-for="(item,index) in hot" :key="index" class="search-content" @click="enter(item)">
                     {{item}}
                 </span>
             </div>
@@ -75,13 +75,12 @@
                     if (history === undefined) {
                         setHistory("," + value)
                     } else {
-                        setHistory("," + value + history + value)
+                        setHistory("," + value + history)
                     }
-                    this.$router.push({path:"/search_results",query:{content:this.value}})
+                    this.$router.push({path:"/search_results",query:{content:value}})
                 } else {
                     Notify({ type: 'warning', message: '请输入内容',duration: 1000, });
                 }
-
             }
 
         }

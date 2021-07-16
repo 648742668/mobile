@@ -15,7 +15,7 @@
                 :listenScroll="true"
                 @scroll='scroll'
                 :data="goodList">
-            <div  class="swiper-wrapper">
+            <div class="swiper-wrapper">
                 <home-swiper :banner="banner"
                              @swiperImgLoad="swiperImgLoad"/>
             </div>
@@ -30,14 +30,16 @@
                 </div>
             </div>
 
-                <main-hot :hots="hots"/>
-<!--            <future-view/>-->
+            <main-hot :hots="hots"/>
+            <!--            <future-view/>-->
             <tab-control
                     :titles="['流行','新款','精品']"
                     ref="tabControl2"
                     @tabControlClick='tabClick'/>
-            <goods-list :goods="goodList" />
+            <goods-list :goods="goodList"/>
         </scroll>
+
+            <van-loading color="#FF0000" v-show="showLoading" class="zt-loading" size="30" vertical>加载中...</van-loading>
         <back-top ref='backtop' @click.native='backTop'/>
     </div>
 </template>
@@ -56,22 +58,23 @@
 
     import MainHot from "./component/MainHot";
 
-    const basePrefix="/mb-product"
+    const basePrefix = "/mb-product"
     export default {
         name: "Home",
         data() {
             return {
-                hots:[],
+                showLoading:false,
+                hots: [],
                 result: null,
                 banner: [],
                 recommends1: [],
                 recommends2: [],
                 goods: {
-                    pop: {page: 0, list: []},
-                    new: {page: 0, list: []},
-                    sell: {page: 0, list: []}
+                    0: {page: 0, list: []},
+                    1: {page: 0, list: []},
+                    2: {page: 0, list: []}
                 },
-                currentType: 'pop',
+                currentType: 0,
                 offsetTop: -1,
                 isTabFixed: false,
                 saveY: 0
@@ -91,41 +94,29 @@
         },
         created() {
             this.getHomeMultiData()
-            this.getGoodsData('sell');
-            this.getGoodsData('new');
-            this.getGoodsData('pop');
+            this.getGoodsData(0);
+            this.getGoodsData(1);
+            this.getGoodsData(2);
 
         },
         methods: {
             getHomeMultiData() {
-                // getHomeMultiData().then(res => {
-                //     // console.log(res);
-                    this.recommends1 = recommends1;
-                    this.recommends2 = recommends2;
-                    this.banner = banner
-                this.hots=hots
-                    this.hots=hots
-                // })
+                this.recommends1 = recommends1;
+                this.recommends2 = recommends2;
+                this.banner = banner
+                this.hots = hots
+                this.hots = hots
             },
             getGoodsData(type) {
                 let page = this.goods[type].page + 1;
-                this.get(basePrefix + "/list-main",{pageNum:page},obj=>{
+                this.showLoading = true
+                this.get(basePrefix + "/list-main", {pageNum: page}, obj => {
                     this.goods[type].list.push(...obj.records);
+                    this.showLoading = false
                 })
             },
             tabClick(index) {
-                switch (index) {
-                    case 0:
-                        this.currentType = 'pop';
-                        break;
-                    case 1:
-                        this.currentType = 'new';
-                        break;
-                    case 2:
-                        this.currentType = 'sell';
-                        break
-
-                }
+                this.currentType = index
                 this.$refs.tabControl1.currentIndex = index;
                 this.$refs.tabControl2.currentIndex = index;
             },
@@ -139,7 +130,6 @@
             swiperImgLoad() {
                 this.offsetTop = this.$refs.tabControl2.$el.offsetTop;
             }
-            //    防抖函数
 
         },
         mixins: [backTopMixin, itemLoadListenerMixin],
@@ -150,15 +140,15 @@
         },
         activated() {
             this.$refs.scroll.refresh();
-            this.$refs.scroll.scrollTo(0, this.saveY, 0);
+            this.saveY = this.$store.getters.GET_SAVE_Y
+            this.$refs.scroll.scrollTo(0,this.saveY, 0);
         },
         deactivated() {
             this.saveY = this.$refs.scroll.scrollY();
+            this.$store.commit('SET_SAVE_Y',this.saveY)
             this.$refs.scroll.refresh()
-
             this.$bus.$off('imgLoad', this.itemLoadListener)
         },
-
     }
 </script>
 
@@ -196,14 +186,13 @@
         right: 0;
     }
 
-    .fix {
+    .zt-loading{
         position: absolute;
-        top: 44px;
-        right: 0;
-        left: 0;
-        z-index: 9;
+        top: 45%;
+        left: 45%;
     }
-    .swiper-wrapper{
+
+    .swiper-wrapper {
         padding: 10px;
         background: white;
         border-top-left-radius: 10px;

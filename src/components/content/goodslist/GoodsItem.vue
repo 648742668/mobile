@@ -1,5 +1,5 @@
 <template>
-    <div class="goods" @click="loadDetail(goodsItem.iid)">
+    <div class="goods" @click="loadDetail(goodsItem.id)">
         <a>
             <img v-lazy="showImg" @load="imgLoad">
             <!--            <img :src="showImg" @load="imgLoad">-->
@@ -35,7 +35,7 @@
                 this.$bus.$emit("imgLoad")
             },
             loadDetail(id) {
-                this.$router.push({path: "/detail", query: {iid: id}})
+                this.$router.push({path: "/detail", query: {id: id}})
             }
         }, computed: {
             showImg() {

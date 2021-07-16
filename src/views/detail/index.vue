@@ -1,7 +1,7 @@
 <template>
     <div style="height: 100vh">
         <nav-bar v-show="!showTabControl">
-            <span slot="left" class="tab-icon-wrapper middle">
+            <span slot="left" class="tab-icon-wrapper middle" @click="$router.back()">
                 <van-icon name="arrow-left" color="#ffffff" slot="left" size="25px" style="margin: 0 auto"/>
             </span>
             <span slot="right" class="tab-icon-wrapper middle">
@@ -11,7 +11,7 @@
         <nav-bar v-show="showTabControl"
                  :style="{opacity: opacity}"
                  background="#ffffff">
-            <van-icon name="arrow-left" slot="left" size="25px" class="middle"/>
+            <van-icon name="arrow-left" slot="left" size="25px" class="middle" @click="$router.back()"/>
             <tab-control
                     slot="middle"
                     :titles="['商品','评价','规格','详情']"
@@ -71,7 +71,6 @@
     import DetailBaseInfo from "./component/DetailBaseInfo";
     import DetailPickChoice from "./component/DetailPickChoice";
     import {detailHtml, sku} from "../../mock/mock";
-    import Notify from "vant/lib/notify";
     import DetailComments from "./component/DetailComments";
     import DetailSpu from "./component/DetailSpu";
     import DetailContent from "./component/DetailContent";
@@ -189,7 +188,6 @@
                 this.getSkuPicks()
             },
             onBuyClicked(skuData) {
-                Notify('已下单');
 
                 this.showSku = false
             }

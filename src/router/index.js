@@ -101,7 +101,6 @@ const routes = [
     name: 'forgetPassword',
     component: () => import('@/views/password/forgetPassword')
   },
-  ,
   {
     path: '/changePwd',
     name: 'changePassword',

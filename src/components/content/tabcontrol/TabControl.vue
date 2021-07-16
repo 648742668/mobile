@@ -25,7 +25,7 @@
                 this.$emit("tabControlClick", index)
             },
             changeWhite(index) {
-                this.currentIndex = -1
+                this.currentIndex = index
             }
         }
     }

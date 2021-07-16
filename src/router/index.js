@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import store from '@/store'
-
 
 Vue.use(VueRouter)
 
@@ -152,6 +150,11 @@ const routes = [
     path: '/order',
     name: 'Order',
     component: () => import('../views/me/order')
+  },
+  {
+    path: '/comments',
+    name: 'comments',
+    component: () => import('@/views/comments/index'),
   }
 ]
 

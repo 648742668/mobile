@@ -1,5 +1,8 @@
 <template>
     <div class="container">
+
+        <van-empty v-if="cart.length === 0" image="search" description="暂无信息" />
+
         <van-checkbox-group v-if="!edit" v-model="checked" ref="cartCheck" @change="checkChange">
             <van-checkbox v-for="item in cart"
                           :name="item.cartItemId"
@@ -77,7 +80,7 @@
         created() {
 			console.log(this.category)
             this.get(this.url.getCart,{userId: 1, categories: this.category}, res => {
-            	console.log(res)
+            	// console.log(res)
             	this.cart = res.reverse()
             })
 		},
@@ -133,7 +136,12 @@
                 })
 			},
 			checkout() {
-
+                this.$router.push({
+                    path: '/checkout',
+                    query: {
+                    	cartselectedItem: this.checked
+                    }
+                })
             }
         },
 	}

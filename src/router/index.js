@@ -70,7 +70,33 @@ const routes = [
     path: '/favorite',
     name: 'Favorite',
     component: () => import('../views/me/favorite')
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: () => import('../views/cart/checkout')
+  },
+  {
+    path: '/paymentWaiting',
+    name: 'PaymentWaiting',
+    component: () => import('../views/cart/paymentWaiting')
+  },
+  {
+    path: '/paymentSuccess',
+    name: 'PaymentSuccess',
+    component: () => import('../views/cart/paymentSuccess')
+  },
+  {
+    path: '/paymentFailure',
+    name: 'PaymentFailure',
+    component: () => import('../views/cart/paymentFailure')
+  },
+  {
+    path: '/paymentWakeup',
+    name: 'PaymentWakeup',
+    component: () => import('../views/cart/paymentWakeup')
   }
+
 ]
 
 const router = new VueRouter({

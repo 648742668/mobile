@@ -37,6 +37,15 @@
           :rules="rules.nickname"
       ></van-field>
       <van-field
+          v-model="form.email"
+          label-width="4em"
+          clearable
+          name="邮箱"
+          label="邮箱"
+          placeholder="邮箱"
+          :rules="rules.email"
+      ></van-field>
+      <van-field
           v-model="form.phone"
           label-width="4em"
           clearable
@@ -114,6 +123,7 @@ export default {
         rawPassword: '',
         nickname: '',
         phone: '',
+        email:'',
         img: '20210713114025958634367.png',
         rawAnswer: '',
       },
@@ -135,7 +145,10 @@ export default {
         ],
         nickname: [
           {required: true, message: '请填写昵称'},
-          {pattern: /^[a-zA-Z]\w{5,50}$/, message: '用户名第一个字符必须是英文，长度必须大于5个字符'},
+        ],
+        email:[
+          {required: true, message: '请填写邮箱'},
+          {pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: '请输入正确的邮箱'}
         ],
         phone: [
           {pattern: /^1([38][0-9]|4[5-9]|5[0-3,5-9]|66|7[0-8]|9[89])[0-9]{8}$/, message: '请输入正确的手机号'},

@@ -9,21 +9,30 @@
       <div
           class="main"
           @click="login">
-        <van-image
-            style="margin-left: 5vw"
-            round
-            width="15vw"
-            height="15vw"
-            :src="loginImg">
-        </van-image>
-        <span class="title">{{ name }}</span>
-        <van-icon size="35px" class="arrow" name="arrow"/>
+        <div>
+          <van-image
+              style="margin-left: 5vw"
+              round
+              width="15vw"
+              height="15vw"
+              :src="loginImg">
+          </van-image>
+        </div>
+        <div class="user">
+          <span class="title">{{ name }}</span>
+          <van-icon size="35px" class="arrow"  name="arrow"/>
+        </div>
       </div>
     </div>
     <div>
       <van-cell style="margin-top: 10px"
                 size="large" title="地址管理"
                 is-link @click="address"/>
+    </div>
+    <div>
+      <van-cell style="margin-top: 10px"
+                size="large" title="修改登录密码"
+                is-link @click="accountSecurity"/>
     </div>
   </div>
 </template>
@@ -53,11 +62,23 @@ export default {
         this.$router.push({
           path: '/login'
         })
+      }else{
+        this.$router.push({
+          path: '/userEdit',
+          query:{
+            id:JSON.stringify(this.$store.getters.GET_CONSUMER.id)
+          }
+        })
       }
     },
     address() {
       this.$router.push({
         path: '/address'
+      })
+    },
+    accountSecurity(){
+      this.$router.push({
+        path: '/passwordWay'
       })
     }
   }
@@ -70,22 +91,21 @@ export default {
 }
 
 .main {
-  display: flex;
   height: 15vw;
-  line-height: 15vw;
-
-  .title {
-    margin-left: 3vw;
-    font-size: 20px;
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  .arrow {
-    margin-top: 3vw;
-    margin-left: 40vw;
-    display: inline-block;
-    vertical-align: middle;
+  width: 100vw;
+  display: flex;
+  .user{
+    line-height: 15vw;
+    .arrow {
+      margin-top: 15px;
+      float: right;
+    }
+    .title {
+      width: 40vw;
+      margin-left: 3vw;
+      float: left;
+      font-size: 20px;
+    }
   }
 }
 </style>

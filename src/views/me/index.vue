@@ -5,7 +5,7 @@
           v-if="isRouterAlive"
           :is="myHeadForm"></component>
     </div>
-    <div id="my_main">
+    <div id="my_main" style="border-radius: 10px">
       <component
           v-if="isRouterAlive"
           :is="myMainForm"></component>

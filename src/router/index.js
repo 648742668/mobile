@@ -80,15 +80,30 @@ const routes = [
     ]
   },
   {
-    path: '/forgetPwd',
-    name: 'forgetPassword',
-    component: () => import('@/views/password/forgetPassword')
+    path: '/passwordWay',
+    name: 'passwordIndex',
+    component: () => import('@/views/me/setting/password')
+  },
+  {
+    path: '/pwdByQuestion',
+    name: 'pwdByQuestion',
+    component: () => import('@/views/me/setting/password/pwdByQuestion')
+  },
+  {
+    path: '/pwdByPwd',
+    name: 'pwdByPwd',
+    component: () => import('@/views/me/setting/password/pwdByPwd')
+  },
+  {
+    path: '/pwdByEmail',
+    name: 'pwdByEmail',
+    component: () => import('@/views/me/setting/password/pwdByEmail')
   },
   ,
   {
     path: '/changePwd',
     name: 'changePassword',
-    component: () => import('@/views/password/changePassword')
+    component: () => import('@/views/me/setting/password/changePassword')
   },
   {
     path: '/userSetting',
@@ -104,6 +119,11 @@ const routes = [
     path: '/addressEdit',
     name: 'addressEdit',
     component: () => import('@/views/me/setting/address/edit'),
+  },
+  {
+    path: '/userEdit',
+    name: 'userEdit',
+    component: () => import('@/views/me/setting/user'),
   }
 ]
 
@@ -112,5 +132,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+
 
 export default router

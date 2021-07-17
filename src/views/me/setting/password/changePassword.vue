@@ -47,9 +47,17 @@ export default {
   name: "changePassword",
   components: {SwitchPasswordType, [Notify.Component.name]: Notify.Component,},
   created() {
-    if (this.$store.getters.GET_CHANGEPWD) {
-      this.form.username = this.$store.getters.GET_CONSUMER.username
-    } else {
+    if (this.$store.getters.GET_TOKEN){
+      if (this.$store.getters.GET_CHANGEPWD){
+        this.form.username = this.$store.getters.GET_CONSUMER.username
+      }else {
+        this.$store.commit('SET_CHANGEPWD', '-1')
+        this.$router.push({
+          path: '/login'
+        })
+      }
+    }else {
+      this.$store.commit('SET_CHANGEPWD', '-1')
       this.$router.push({
         path: '/login'
       })
@@ -61,7 +69,7 @@ export default {
       url: {
         changePwd: module + '/changePwd'
       },
-      appImgUrl: require('../../assets/password/changePassword.png'),
+      appImgUrl: require('../../../../assets/password/changePassword.png'),
       form: {
         username: '',
         password: '',
@@ -81,7 +89,7 @@ export default {
           Notify({type: 'success', message: '修改成功'});
           this.$store.commit('SET_TOKEN', '')
           this.$store.commit('SET_CONSUMER', {})
-          this.$store.commit('SET_CHANGEPWD', '')
+          this.$store.commit('SET_CHANGEPWD', '-1')
           console.log(this.$store.getters.GET_TOKEN)
           console.log(this.$store.getters.GET_CONSUMER)
           this.$router.push({

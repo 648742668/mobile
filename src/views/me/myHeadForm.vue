@@ -22,7 +22,7 @@
           height="15vw"
           :src="loginImg">
       </van-image>
-      <span  class="title">{{ name }}</span>
+      <span  class="title">{{ nickyname }}</span>
     </div>
   </div>
 </template>
@@ -35,13 +35,13 @@ export default {
   created() {
     if (this.$store.getters.GET_TOKEN) {
       this.loginImg = IMG_URL + this.$store.getters.GET_CONSUMER.img
-      this.name = this.$store.getters.GET_CONSUMER.nickname
+      this.nickyname = this.$store.getters.GET_CONSUMER.nickname
     }
   },
   data(){
     return {
       loginImg:require('../../assets/my/my_login.png'),
-      name:'登录/注册 >',
+      nickyname:'登录/注册 >',
     }
   },
   methods:{

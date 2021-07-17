@@ -17,11 +17,7 @@
                 </van-tabs>
             </van-sticky>
         </div>
-
-        <div v-if="orders.length === 0" style="margin: 20px auto; text-align: center">
-            暂无订单
-        </div>
-
+        <van-empty v-if="orders.length === 0" image="search" description="暂无信息" />
         <div v-for="order in orders"
              :key="order.id"
              class="order">
@@ -42,23 +38,23 @@
             </van-cell>
             <div class="btnGroup">
                 <div v-if="order.status === 1" class="btn">
-                    <van-button round type="default" plain size="mini" @click="cancel(order.orderId)">取消订单</van-button>
-                    <van-button round type="danger" plain size="mini" @click="checkout(order.orderId)">去支付</van-button>
+                    <van-button round type="default" plain size="mini" @click="cancel(order.id)">取消订单</van-button>
+                    <van-button round type="danger" plain size="mini" @click="checkout(order.id)">去支付</van-button>
                 </div>
                 <div v-if="order.status === 2 || order.status === 3" class="btn">
-                    <van-button round type="default" plain size="mini" @click="cancel(order.orderId)">取消订单</van-button>
-                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.orderId)">再次购买</van-button>
+                    <van-button round type="default" plain size="mini" @click="cancel(order.id)">取消订单</van-button>
+                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.id)">再次购买</van-button>
                 </div>
                 <div v-if="order.status === 4" class="btn">
                     <van-button round type="default" plain size="mini">退货/换货</van-button>
-                    <van-button round type="danger" plain size="mini" @click="goToComment(order.orderId)">去评价</van-button>
+                    <van-button round type="danger" plain size="mini" @click="goToComment(order.id)">去评价</van-button>
                 </div>
                 <div v-if="order.status === 5" class="btn">
                     <van-button round type="default" plain size="mini">退货/换货</van-button>
-                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.orderId)">再次购买</van-button>
+                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.id)">再次购买</van-button>
                 </div>
                 <div v-if="order.status === 6" class="btn">
-                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.orderId)">重新购买</van-button>
+                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.id)">重新购买</van-button>
                 </div>
             </div>
         </div>
@@ -130,7 +126,13 @@
 
             },
 			checkout(orderId) {
-				// TODO
+		    	console.log(orderId)
+				this.$router.push({
+					path: '/paymentWakeup',
+					query: {
+						orderId: orderId
+					}
+				})
 			},
 			cancel(orderId) {
 				this.post('/order/cancel', {orderId: orderId}, res => {

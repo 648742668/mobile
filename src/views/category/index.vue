@@ -8,7 +8,6 @@
                                   @searchCategory="enter"/>
             </left-bar>
         </div>
-
     </div>
 </template>
 

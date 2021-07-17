@@ -154,8 +154,34 @@ const routes = [
   {
     path: '/comments',
     name: 'comments',
-    component: () => import('@/views/comments/index'),
+    component: () => import('@/views/comments/index')
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: () => import('../views/cart/checkout')
+  },
+  {
+    path: '/paymentWaiting',
+    name: 'PaymentWaiting',
+    component: () => import('../views/cart/paymentWaiting')
+  },
+  {
+    path: '/paymentSuccess',
+    name: 'PaymentSuccess',
+    component: () => import('../views/cart/paymentSuccess')
+  },
+  {
+    path: '/paymentFailure',
+    name: 'PaymentFailure',
+    component: () => import('../views/cart/paymentFailure')
+  },
+  {
+    path: '/paymentWakeup',
+    name: 'PaymentWakeup',
+    component: () => import('../views/cart/paymentWakeup')
   }
+
 ]
 
 const router = new VueRouter({

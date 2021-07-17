@@ -111,7 +111,6 @@
                 vertical-align: bottom;
                 height: 25px;
             }
-
         }
     }
 </style>

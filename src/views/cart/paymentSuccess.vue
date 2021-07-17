@@ -18,8 +18,12 @@
 		data() {},
 		methods: {
 			goback() {
+				let orderId = this.$route.query.out_trade_no
 				this.$router.push({
-					path: '/order'
+					path: '/orderDetail',
+                    query: {
+						orderId: orderId
+                    }
 				})
 			}
 		}

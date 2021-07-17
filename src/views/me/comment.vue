@@ -38,6 +38,13 @@
                                 color="#ffd21e"
                                 void-icon="star"
                                 void-color="#eee"/>
+                            <div style="position: absolute; top: 2px; left: 280px;">
+                                <span v-if="comments[index].rank === 5">妈妈我还要！</span>
+                                <span v-if="comments[index].rank === 4">针不戳~</span>
+                                <span v-if="comments[index].rank === 3">诶，有点意思</span>
+                                <span v-if="comments[index].rank === 2">你不太行</span>
+                                <span v-if="comments[index].rank === 1">辣鸡</span>
+                            </div>
                         </div>
                         <div class="content">
                             您的评价：
@@ -65,7 +72,6 @@
         </div>
 
         <van-submit-bar
-                style="margin-bottom: 50px"
                 button-text="提交评价"
                 @submit="submitComment">
         </van-submit-bar>
@@ -104,7 +110,7 @@
                 	this.$router.push({
 						path: '/orderDetail',
 						query: {
-							order: this.order
+							orderId: this.order.orderId
 						}
                     })
                 })
@@ -130,7 +136,7 @@
     @height: 75px;
     .commentContainer {
         width: 100vw;
-        height: calc(100vh - 100px);
+        height: calc(100vh - 50px);
         background-color: #F2F2F2;
         overflow: scroll;
 
@@ -163,7 +169,7 @@
             .rating{
                 height: 25px;
                 line-height: 25px;
-
+                position: relative;
             }
 
             .content{

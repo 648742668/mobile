@@ -8,12 +8,12 @@
                         left-arrow
                         @click-left="onClickLeft"/>
                 <van-tabs v-model="active" sticky @change="getOrders">
-                    <van-tab title="全部"></van-tab>
-                    <van-tab title="待付款"></van-tab>
-                    <van-tab title="待收货"></van-tab>
-                    <van-tab title="待评价"></van-tab>
-                    <van-tab title="已完成"></van-tab>
-                    <van-tab title="已取消"></van-tab>
+                    <van-tab title="全部" name="0"></van-tab>
+                    <van-tab title="待付款" name="1"></van-tab>
+                    <van-tab title="待收货" name="2"></van-tab>
+                    <van-tab title="待评价" name="3"></van-tab>
+                    <van-tab title="已完成" name="4"></van-tab>
+                    <van-tab title="已取消" name="5"></van-tab>
                 </van-tabs>
             </van-sticky>
         </div>
@@ -25,7 +25,6 @@
                 <template #title>
                     订单号: {{ order.id }} <br/>
                     订单状态： <van-tag plain :type="getType(order)">{{ getStatus(order) }}</van-tag>
-
                 </template>
                 <template #label>
                     <div v-for="orderItem in order.orderItemList"
@@ -38,23 +37,22 @@
             </van-cell>
             <div class="btnGroup">
                 <div v-if="order.status === 1" class="btn">
-                    <van-button round type="default" plain size="mini" @click="cancel(order.id)">取消订单</van-button>
-                    <van-button round type="danger" plain size="mini" @click="checkout(order.id)">去支付</van-button>
+                    <van-button round type="default" plain size="small" @click="cancel(order.id)">取消订单</van-button>&nbsp;
+                    <van-button round type="danger" plain size="small" @click="checkout(order.id)">去支付</van-button>
                 </div>
                 <div v-if="order.status === 2 || order.status === 3" class="btn">
-                    <van-button round type="default" plain size="mini" @click="cancel(order.id)">取消订单</van-button>
-                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.id)">再次购买</van-button>
+                    <van-button round type="danger" plain size="small" @click="delivered(order.id)">确认收货</van-button>
                 </div>
                 <div v-if="order.status === 4" class="btn">
-                    <van-button round type="default" plain size="mini">退货/换货</van-button>
-                    <van-button round type="danger" plain size="mini" @click="goToComment(order.id)">去评价</van-button>
+                    <van-button round type="default" plain size="small">退货/换货</van-button>&nbsp;
+                    <van-button round type="danger" plain size="small" @click="goToComment(order.id)">去评价</van-button>
                 </div>
                 <div v-if="order.status === 5" class="btn">
-                    <van-button round type="default" plain size="mini">退货/换货</van-button>
-                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.id)">再次购买</van-button>
+                    <van-button round type="default" plain size="small">退货/换货</van-button>&nbsp;
+                    <van-button round type="danger" plain size="small" @click="buyAgain(order.id)">再次购买</van-button>
                 </div>
                 <div v-if="order.status === 6" class="btn">
-                    <van-button round type="danger" plain size="mini" @click="buyAgain(order.id)">重新购买</van-button>
+                    <van-button round type="danger" plain size="small" @click="buyAgain(order.id)">重新购买</van-button>
                 </div>
             </div>
         </div>
@@ -69,8 +67,8 @@
         components: { orderItemCard },
         data() {
             return {
-            	active: 0,
-                orders:[]
+            	active: null,
+                orders: null
             }
 		},
         methods: {
@@ -81,15 +79,15 @@
             },
 		    getOrders() {
 		    	let status = []
-		    	if(this.active < 2) {
-		    		status.push(this.active)
-                }else if(this.active === 2) {
+		    	if(parseInt(this.active) < 2) {
+		    		status.push(parseInt(this.active))
+                }else if(parseInt(this.active) === 2) {
 					status.push(2)
 					status.push(3)
                 }else {
-					status.push(this.active + 1)
+					status.push(parseInt(this.active) + 1)
                 }
-                this.get('/order/getOrders', {consumerId: 1, status: status}, res => {
+                this.get('/order/getOrders', {consumerId: this.$store.getters.GET_CONSUMER.id , status: status}, res => {
                 	this.orders = res.reverse()
 					// console.log(res)
                 })
@@ -115,15 +113,12 @@
 				}
             },
 			detail(orderId) {
-				this.get('order/getOrderDetail', {orderId: orderId}, res => {
-					this.$router.push({
-						path: '/orderDetail',
-						query: {
-							order: res
-						}
-					})
-				})
-
+                this.$router.push({
+                    path: '/orderDetail',
+                    query: {
+                        orderId: orderId
+                    }
+                })
             },
 			checkout(orderId) {
 		    	console.log(orderId)
@@ -135,12 +130,17 @@
 				})
 			},
 			cancel(orderId) {
-				this.post('/order/cancel', {orderId: orderId}, res => {
-					this.onClickLeft()
-				})
+				this.$dialog.confirm({
+					title: '提示',
+					message: '确认取消该订单吗？',
+                }).then(() => {
+					this.post('/order/cancel', {orderId: orderId}, res => {
+						this.getOrders()
+					})
+                })
 			},
 			buyAgain(orderId) {
-				this.post('/order/buAgain', {orderId: orderId}, res => {
+				this.post('/order/buyAgain', {orderId: orderId}, res => {
 					this.onClickLeft()
 				})
 			},
@@ -155,13 +155,18 @@
 						})
                     }
                 }
-			}
+			},
+			delivered(orderId) {
+				this.$dialog.confirm({
+					title: '提示',
+					message: '确认商品已经送达吗？',
+				}).then(() => {
+					this.post('/order/deliveredConfirm', {orderId: orderId}, res => {
+						this.getOrders()
+					})
+				})
+            }
         },
-        beforeMount() {
-			this.active = this.$route.query.active
-			console.log(this.active)
-			this.getOrders()
-		},
 		created() {
 			this.active = this.$route.query.active
             console.log(this.active)

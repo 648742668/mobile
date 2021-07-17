@@ -6,8 +6,8 @@
 <!--                  :price="item.price"></van-card>-->
         <div class="left">
             <van-image
-                    width="100"
-                    height="100"
+                    width="80"
+                    height="80"
                     fit="fill"
                     :src="img(item.productImg)"/>
         </div>
@@ -64,7 +64,7 @@
 
 <style scoped lang="less">
     .container {
-        height: 104px;
+        height: 120px;
         width: 100%;
 
         .left {

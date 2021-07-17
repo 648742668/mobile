@@ -23,7 +23,10 @@
         methods: {
 			goback() {
 				this.$router.push({
-					path: '/order'
+					path: '/order',
+					query: {
+						active: 0
+					}
 				})
             }
         },

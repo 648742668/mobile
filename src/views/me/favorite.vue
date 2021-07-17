@@ -7,7 +7,8 @@
                     left-arrow
                     @click-left="onClickLeft"/>
         </van-sticky>
-        <div v-for="item in products" style="margin-bottom: 8px; margin-top: 8px">
+        <van-empty v-if="products.length === 0" image="search" description="暂无信息" />
+        <div v-else v-for="item in products" style="margin-bottom: 8px; margin-top: 8px">
             <van-swipe-cell>
                 <van-card
                         :price="Number(item.price).toFixed(2)"
@@ -30,7 +31,7 @@
 		name: "Favorite",
         data(){
 			return {
-				consumerId: 1,
+				consumerId: this.$store.getters.GET_CONSUMER.id,
 				products:[]
             }
         },

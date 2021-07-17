@@ -79,7 +79,7 @@
         },
         created() {
 			console.log(this.category)
-            this.get(this.url.getCart,{userId: 1, categories: this.category}, res => {
+            this.get(this.url.getCart,{userId: this.$store.getters.GET_CONSUMER.id, categories: this.category}, res => {
             	// console.log(res)
             	this.cart = res.reverse()
             })
@@ -156,6 +156,7 @@
     .cartItem{
         background-color: white;
         margin-bottom: 15px;
+        margin-left: 15px;
     }
     .van-submit-bar {
         bottom: 50px;

@@ -198,8 +198,8 @@
             border-radius: 10px;
 
             .itemCard {
-                width: 100vw;
-                height: 120px;
+                width: 103vw;
+                height: 135px;
                 padding: 10px 15px;
                 border-bottom: 0.5px solid #F2F2F2;
 

@@ -62,7 +62,7 @@
             <template #title>
                 支付方式： &nbsp;&nbsp;&nbsp; 支付宝支付
                 <br/>
-                支付时间： &nbsp;&nbsp;&nbsp; {{ order.createTime }}
+                支付时间： &nbsp;&nbsp;&nbsp; {{ order.payment.payTime }}
                 <br/>
                 实付金额： &nbsp;&nbsp;&nbsp; ￥{{ order.payment.money }}
             </template>
@@ -79,9 +79,8 @@
 
         <div v-if="order.status < 4 && order.status > 1">
             <van-submit-bar
-                    button-text="再次购买"
-                    @submit="buyAgain">
-                <van-button class="btnLeft" @click="cancel" style="width: 100px; margin-right: 150px">取消订单</van-button>
+                    button-text="确认收货"
+                    @submit="delivered">
             </van-submit-bar>
         </div>
 
@@ -126,7 +125,10 @@
 		methods: {
 			onClickLeft() {
 				this.$router.push({
-					path: '/me'
+					path: '/order',
+                    query: {
+						active: 0
+                    }
 				})
 			},
 			checkout() {
@@ -143,7 +145,7 @@
 				})
 			},
 			buyAgain() {
-				this.post('/order/buAgain', {orderId: this.order.orderId}, res => {
+				this.post('/order/buyAgain', {orderId: this.order.orderId}, res => {
 					this.onClickLeft()
 				})
 			},
@@ -154,10 +156,23 @@
                     	order: this.order
                     }
                 })
+            },
+			delivered() {
+				this.$dialog.confirm({
+					title: '提示',
+					message: '确认商品已经送达吗？',
+				}).then(() => {
+					this.post('/order/deliveredConfirm', {orderId: this.order.orderId}, res => {
+						this.getOrders()
+					})
+				})
             }
 		},
 		created() {
-			this.order = this.$route.query.order
+			let orderId = this.$route.query.orderId
+			this.get('order/getOrderDetail', {orderId: orderId}, res => {
+				this.order = res
+			})
 			if (this.order.status !== 5 && this.order.status !== 6) {
 				this.active = this.order.status
 			}

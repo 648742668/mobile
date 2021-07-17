@@ -135,7 +135,12 @@
 				})
 			},
 			checkout() {
-				// TODO
+				this.$router.push({
+					path: '/paymentWakeup',
+					query: {
+						orderId: this.order.orderId
+					}
+				})
 			},
 			cancel() {
 				this.post('/order/cancel', {orderId: this.order.orderId}, res => {

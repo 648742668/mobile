@@ -10,22 +10,21 @@
     <van-address-edit
         :address-info="AddressInfo"
         :area-list="areaList"
-        show-delete
+        :show-delete="this.showDel"
         show-set-default
         show-search-result
         :area-columns-placeholder="['请选择', '请选择', '请选择']"
         @save="onSave"
         @delete="onDelete"
-        @change-detail="onChangeDetail"
     />
   </div>
 
 </template>
 
 <script>
-
+import {Toast} from 'vant';
 import {Dialog} from 'vant';
-import {areaList} from '@/config/address'
+import {areaList} from '@/mock/address'
 
 export default {
   name: "addressEdit",
@@ -38,12 +37,10 @@ export default {
         path: '/login'
       })
     } else {
-      if (this.$route.params.addressId) {
+      if (this.$route.query.addressId) {
         this.getone();
-      } else {
-        this.$router.push({
-          path: '/userSetting'
-        })
+        this.AddressInfo.id = this.$route.query.addressId
+        this.showDel = true
       }
     }
   },
@@ -51,14 +48,19 @@ export default {
     const module = '/address'
     return {
       url: {
-        getone: module + '/getone'
+        getone: module + '/getone',
+        update: module + '/update',
+        add: module + '/add',
+        del: module + '/del'
       },
+      showDel: false,
       AddressInfo: {
+        id: '',
         name: '',//姓名
         tel: '',//电话
         province: '',//省份
         city: '',//城市
-        country: '',//区县
+        county: '',//区县
         areaCode: '',//地址code：ID
         addressDetail: '',//详细地址
         isDefault: false,//是否选择默认
@@ -69,27 +71,60 @@ export default {
   },
   methods: {
     getone() {
-      this.get(this.url.getone, {id: this.$route.params.addressId}, response => {
+      this.get(this.url.getone, {id: this.$route.query.addressId}, response => {
+        this.AddressInfo.id = response.id
         this.AddressInfo.name = response.recvName
         this.AddressInfo.tel = response.recvPhone
-        this.AddressInfo.areaCode = response.county
         this.AddressInfo.addressDetail = response.address
-        this.AddressInfo.province = areaList.province_list[response.province]
-        this.AddressInfo.city = areaList.city_list[response.city]
-        this.AddressInfo.country = areaList.county_list[response.county]
+        this.AddressInfo.province = response.province
+        this.AddressInfo.city = response.city
+        this.AddressInfo.county = response.county
+        let province = ''
+        let city = ''
+        let county = ''
+        for (let key in areaList.province_list) {
+          if (areaList.province_list[key] === response.province) {
+            province = key.substring(0, 2)
+            break
+          }
+        }
+        for (let key in areaList.city_list) {
+          if (areaList.city_list[key] === response.city && key.substring(0, 2) === province) {
+            city = key.substring(0, 4)
+            break
+          }
+        }
+        for (let key in areaList.county_list) {
+          if (areaList.county_list[key] === response.county && key.substring(0, 4) === city) {
+            county = key
+            break
+          }
+        }
+        this.AddressInfo.areaCode = county
         if (response.firstPick === 1) {
           this.AddressInfo.isDefault = true
         }
       })
     },
     onSave(content) {
-      console.log(content)
+      content.id = this.AddressInfo.id
+      content.recvName = content.name
+      content.recvPhone = content.tel
+      content.address = content.addressDetail
+      content.consumerId = this.$store.getters.GET_CONSUMER.id
+      if (content.isDefault) {
+        content.firstPick = 1
+      } else {
+        content.firstPick = 0
+      }
+      this.post(this.$route.query.addressId ? this.url.update : this.url.add, content, response => {
+        this.$router.back();
+      })
     },
     onDelete() {
-
-    },
-    onChangeDetail(val) {
-
+      this.post(this.url.del,{id:this.AddressInfo.id}, response => {
+        this.$router.back();
+      })
     },
     onClickLeft() {
       this.$router.back();

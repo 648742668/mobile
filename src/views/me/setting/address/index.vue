@@ -13,13 +13,14 @@
           :list="list"
           default-tag-text="默认"
           @edit="onEdit"
+          @add="onAdd"
       />
     </div>
   </div>
 </template>
 
 <script>
-import {areaList} from '@/config/address'
+
 export default {
   name: "addressList",
   data(){
@@ -51,10 +52,7 @@ export default {
             id:response[i].id,
             name:response[i].recvName,
             tel:response[i].recvPhone,
-            address: areaList.province_list[response[i].province]
-                +areaList.city_list[response[i].city]
-                +areaList.county_list[response[i].county]
-                +response[i].address
+            address: response[i].province +response[i].city +response[i].county +response[i].address
           })
           if (response[i].firstPick === 1){
             this.list[i].isDefault=true
@@ -71,9 +69,14 @@ export default {
     onEdit(item, index){
       this.$router.push({
         name:'addressEdit',
-        params:{
-          addressId:item.id
+        query:{
+          addressId:JSON.stringify(item.id)
         }
+      })
+    },
+    onAdd(){
+      this.$router.push({
+        path:'/addressEdit',
       })
     }
   }

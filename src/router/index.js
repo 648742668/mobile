@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import Home from '../views/Home.vue'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -97,14 +98,29 @@ const routes = [
     ]
   },
   {
-    path: '/forgetPwd',
-    name: 'forgetPassword',
-    component: () => import('@/views/password/forgetPassword')
+    path: '/passwordWay',
+    name: 'passwordIndex',
+    component: () => import('@/views/me/setting/password')
+  },
+  {
+    path: '/pwdByQuestion',
+    name: 'pwdByQuestion',
+    component: () => import('@/views/me/setting/password/pwdByQuestion')
+  },
+  {
+    path: '/pwdByPwd',
+    name: 'pwdByPwd',
+    component: () => import('@/views/me/setting/password/pwdByPwd')
+  },
+  {
+    path: '/pwdByEmail',
+    name: 'pwdByEmail',
+    component: () => import('@/views/me/setting/password/pwdByEmail')
   },
   {
     path: '/changePwd',
     name: 'changePassword',
-    component: () => import('@/views/password/changePassword')
+    component: () => import('@/views/me/setting/password/changePassword')
   },
   {
     path: '/userSetting',
@@ -175,8 +191,12 @@ const routes = [
     path: '/paymentWakeup',
     name: 'PaymentWakeup',
     component: () => import('../views/cart/paymentWakeup')
+  },
+  {
+    path: '/userEdit',
+    name: 'userEdit',
+    component: () => import('@/views/me/setting/user'),
   }
-
 ]
 
 const router = new VueRouter({

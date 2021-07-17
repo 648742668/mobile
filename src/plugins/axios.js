@@ -56,7 +56,6 @@ _axios.interceptors.response.use(
 
 const request = (url, method, params, callback) => {
 
-
   const myconfig = {
     //前端后端通讯的接口
     url: url,

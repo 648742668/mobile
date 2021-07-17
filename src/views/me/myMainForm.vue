@@ -1,6 +1,6 @@
 <template>
   <div style="background: #f2f2f2;">
-    <van-grid style="margin-bottom: 2vh" border clickable :column-num="2">
+    <van-grid style="margin-bottom: 2vh;" border clickable :column-num="2">
       <van-grid-item
           v-for="(item,index) in myList"
           :key="index"
@@ -69,5 +69,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-
+.van-grid{
+  border-radius: 10px;
+}
 </style>

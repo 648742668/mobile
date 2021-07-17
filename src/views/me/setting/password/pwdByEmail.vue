@@ -1,0 +1,171 @@
+<template>
+  <div>
+    <div id="top">
+      <van-image
+          round
+          class="img"
+          alt="APP logo"
+          :src="appImgUrl">
+      </van-image>
+    </div>
+    <div id="main">
+      <van-field
+          v-if="nameShow"
+          v-model="form.username"
+          label-width="4em"
+          clearable
+          name="用户名"
+          label="用户名"
+          placeholder="用户名"
+          :rules="rules.username"
+      ></van-field>
+      <h4>{{ title }}</h4>
+      <span style="margin-top: 10px">{{ message }}</span>
+      <div class="code">
+        <van-field
+            v-model="form.code"
+            center
+            clearable
+            label="邮箱验证码"
+            placeholder="请输入邮箱验证码"
+        >
+        </van-field>
+        <van-button
+            class="send"
+            @click="sendCode"
+            size="samll"
+            type="info">发送验证码
+        </van-button>
+      </div>
+      <van-button
+          class="button"
+          plain
+          :disabled="nextShow"
+          type="info"
+          round
+          @click="save"
+          size="small"
+      >下一步
+      </van-button>
+    </div>
+  </div>
+</template>
+
+<script>
+import {Notify,Toast} from 'vant';
+
+export default {
+  name: "pwdByEmail",
+  components: {[Notify.Component.name]: Notify.Component,},
+  created() {
+    if (this.$store.getters.GET_TOKEN) {
+      this.nameShow = false
+      this.form.username = this.$store.getters.GET_CONSUMER.username
+      this.message = '请输入' + this.$store.getters.GET_CONSUMER.email.substring(0, 3) + "*****"
+          + '@qq.com收到的邮箱验证码'
+    }
+  },
+  data() {
+    const module = '/consumer'
+    return {
+      url: {
+        sendEmail: module + '/sendEmail',
+        pwdByEmail: module + '/pwdByEmail'
+      },
+      title: '请完成以下认证',
+      message: '',
+      appImgUrl: require('../../../../assets/password/pwdByEmail.png'),
+      form: {
+        username: '',
+        code: '',
+      },
+      rules: {
+        username: [
+          {required: true, message: '请填写用户名'},
+          {pattern: /^[a-zA-Z]\w{5,50}$/, message: '第一个字符必须是英文，长度超过5个字符'},
+        ],
+      },
+      nameShow: true,
+      nextShow: true,
+    }
+  },
+  methods: {
+    save() {
+      console.log("点击下一步")
+      if (this.form.code.length != 6){
+        Toast.fail('请输入正确的验证码');
+        return
+      }
+      this.post(this.url.pwdByEmail,
+          {
+            kind: 2,
+            username: this.form.username,
+            code: this.form.code
+          },
+          response => {
+            if (response.check) {
+              this.$store.commit('SET_TOKEN', response.token)
+              this.$store.commit('SET_CONSUMER', response.consumer)
+              this.$store.commit('SET_CHANGEPWD', response.changePwd)
+              Notify({type: 'success', message: '验证成功'});
+              this.$router.push({
+                path: '/changePwd',
+              })
+            }
+          })
+    },
+    sendCode() {
+      if (this.form.username.length<=0){
+        Toast.fail("请输入用户名")
+        return
+      }
+      this.nextShow = false
+      this.post(this.url.sendEmail, {username: this.form.username,kind: 2}, response => {
+          if(response){
+            Toast.success("邮件发送成功")
+          }
+      })
+    }
+  }
+}
+</script>
+
+<style scoped lang="less">
+@top_top: 15vh;
+@top_left: 35vw;
+@img: 100px;
+#top {
+  margin-top: @top_top;
+  text-align: center;
+}
+
+#main {
+  margin-left: 30px;
+  margin-top: 30px;
+}
+
+.code {
+  margin-top: 20px;
+  display: flex;
+
+  .send {
+    width: 30vw;
+  }
+}
+
+.img {
+  width: @img;
+  height: @img;
+  display: inline-block;
+}
+
+.button {
+  height: 50px;
+  width: 70vw;
+  border: none;
+  background: #1989fa;
+  color: white;
+  margin-left: 5vw;
+  margin-top: 3vh;
+}
+</style>

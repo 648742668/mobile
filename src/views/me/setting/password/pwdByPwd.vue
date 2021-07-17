@@ -2,7 +2,6 @@
   <div>
     <div id="top">
       <van-image
-          round
           class="img"
           alt="APP logo"
           :src="appImgUrl">
@@ -24,37 +23,14 @@
             placeholder="用户名"
             :rules="rules.username"
         ></van-field>
-        <van-field
-            readonly
-            clickable
-            label="密保问题"
-            label-width="56px"
-            :value="form.rawQuestion"
-            placeholder="选择问题"
-            @click="showPicker = true"
-        />
-        <van-popup v-model="showPicker" round position="bottom">
-          <van-picker
-              show-toolbar
-              :columns="questList"
-              @cancel="oncancel"
-              @confirm="onConfirm"
-          />
-        </van-popup>
-        <van-field
-            v-model="form.rawAnswer"
-            label-width="4em"
-            clearable
-            :disabled="answerShow"
-            name="密保答案"
-            label="密保答案"
-            placeholder="密保答案"
-            :rules="rules.rawAnswer"
-        ></van-field>
+        <SwitchPasswordType
+            v-model="form.password"
+            label="密码"
+            placeholder="请输入密码"
+        ></SwitchPasswordType>
         <van-button
             class="button"
             plain
-            :disabled="answerShow"
             type="info"
             round
             size="small"
@@ -66,15 +42,14 @@
 </template>
 
 <script>
+import SwitchPasswordType from "@/components/password/switchPasswordType";
 import {Notify} from 'vant';
-
 export default {
-  name: "forgetPassword",
-  components: {[Notify.Component.name]: Notify.Component,},
+  name: "pwdByPwd",
+  components: {SwitchPasswordType,[Notify.Component.name]: Notify.Component,},
   created() {
     if (this.$store.getters.GET_TOKEN) {
       this.nameShow = false
-      this.rules.username.push()
       this.form.username = this.$store.getters.GET_CONSUMER.username
     }
   },
@@ -82,44 +57,28 @@ export default {
     const module = '/consumer'
     return {
       url: {
-        forgetPwd: module + '/forgetPwd'
+        pwdByPwd: module + '/pwdByPwd'
       },
-      appImgUrl: require('../../assets/password/securityQuestion.png'),
+      appImgUrl: require('../../../../assets/password/pwdByPwd.png'),
       form: {
-        rawQuestion: '',
-        rawAnswer: '',
         username: '',
+        password:'',
       },
       rules: {
         username: [
           {required: true, message: '请填写用户名'},
           {pattern: /^[a-zA-Z]\w{5,50}$/, message: '第一个字符必须是英文，长度超过5个字符'},
         ],
-        rawAnswer: [
-          {required: true, message: '请填写密保答案'},
-        ]
       },
       nameShow: true,
-      answerShow: true,
-      showPicker: false,
-      questList: [
-        '没安全提示问题',
-        '你喜欢的格言',
-        '你家乡的名称',
-        '你读的小学叫什么',
-        '你的父亲叫什么名字',
-        '你的母亲叫什么名字',
-        '你最喜欢的偶像是谁',
-        '你最喜欢的歌曲是什么'],
     }
   },
   methods: {
     save() {
-      this.post(this.url.forgetPwd,
+      this.post(this.url.pwdByPwd,
           {
             username: this.form.username,
-            rawQuestion: this.form.rawQuestion,
-            rawAnswer: this.form.rawAnswer
+            password: this.form.password
           },
           response => {
             if (response.check) {
@@ -132,14 +91,6 @@ export default {
               })
             }
           })
-    },
-    oncancel() {
-      this.showPicker = false;
-    },
-    onConfirm(value) {
-      this.form.rawQuestion = value;
-      this.showPicker = false;
-      this.answerShow = false;
     },
   }
 }
@@ -175,3 +126,4 @@ export default {
   margin-top: 3vh;
 }
 </style>
+

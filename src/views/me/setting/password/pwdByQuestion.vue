@@ -1,5 +1,14 @@
 <template>
   <div>
+    <van-nav-bar
+        title="密保验证"
+        left-arrow
+        :border="false"
+        @click-left="$router.back()">
+      <van-icon slot="left" size="25px"
+                color="#9E9999"
+                name="arrow-left"/>
+    </van-nav-bar>
     <div id="top">
       <van-image
           round
@@ -57,6 +66,7 @@
             :disabled="answerShow"
             type="info"
             round
+            style="background:#ACE8AC"
             size="small"
         >下一步
         </van-button>

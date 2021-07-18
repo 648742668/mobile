@@ -8,6 +8,7 @@
                     @click-left="onClickLeft"/>
         </van-sticky>
         <van-cell icon="location-o"
+                  center
                   is-link
                   :to="toAddressPage"
                   style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;"

@@ -118,9 +118,32 @@
 		components: {orderItemCard},
 		data() {
 			return {
-				order: null,
-				active: 2
+				order: {
+					address: {
+						recvName: '',
+                        recvPhone: '',
+                        province: '',
+                        city: '',
+                        county: '',
+                        address: ''
+                    }
+                },
+				active: 0
 			}
+		},
+		created() {
+			// this.order = this.$route.query.order
+			// if (this.order.status !== 5 && this.order.status !== 6) {
+			// 	this.active = this.order.status
+			// }
+
+			let orderId = this.$route.query.orderId
+			this.get('order/getOrderDetail', {orderId: orderId}, res => {
+				if (res.status !== 5 && res.status !== 6) {
+					this.active = res.status
+				}
+				this.order = res
+			})
 		},
 		methods: {
 			onClickLeft() {
@@ -167,15 +190,6 @@
 					})
 				})
             }
-		},
-		created() {
-			let orderId = this.$route.query.orderId
-			this.get('order/getOrderDetail', {orderId: orderId}, res => {
-				this.order = res
-			})
-			if (this.order.status !== 5 && this.order.status !== 6) {
-				this.active = this.order.status
-			}
 		}
 	}
 </script>

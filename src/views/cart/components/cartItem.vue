@@ -15,7 +15,7 @@
             <div class="title">
                 {{ item.productName }}
             </div>
-            <div class="sku" @click="showSku = true">
+            <div class="sku" @click="changeSku">
                 {{ getSku() }}
                 <van-icon name="arrow-down"/>
             </div>
@@ -32,11 +32,13 @@
             </div>
         </div>
 
-        <van-sku
+        <van-sku ref="vanSku"
+                v-if="showSku"
                 v-model="showSku"
                 :sku="sku"
                 :goods="goods"
                 :goods-id="id"
+                :initial-sku="initialSku"
                 :hide-stock="false"
                 @buy-clicked="confirmSku"
                 :show-add-cart-btn="false"
@@ -55,6 +57,7 @@
 		        sku: {},
                 goods: {},
                 id: null,
+				initialSku: {}
             }
         },
 		props: {
@@ -68,24 +71,40 @@
 			getSku() {
 				let str = ''
 				for (let i = 0; i < this.item.selectedSkus.length; i++) {
-					str += this.item.selectedSkus[i].value + ','
+					str += this.item.selectedSkus[i].value + ', '
                 }
-				return str.substr(0, str.length-1)
+				return str.substr(0, str.length-2)
             },
             changeCount() {
 				this.$emit('changeCount')
             },
+            changeSku() {
+				this.showSku = true
+				this.get('/mb-product/getOne', {id: this.item.productId}, res => {
+					this.goods.picture = this.img(this.item.productImg)
+					this.genSkuTree(res.skuList, res.productItemVos, res.price)
+					this.initialSku = {}
+					for(let i = 0; i < this.item.selectedSkus.length; i++) {
+						let k_s = 's' + this.item.selectedSkus[i].skuId
+						this.initialSku[k_s] = this.item.selectedSkus[i].id
+					}
+					this.initialSku.selectedNum = this.item.count
+				})
+            },
 			confirmSku() {
-				// TODO
-            }
-        },
-        created() {
-			this.get('/mb-product/getOne', {id: this.item.productId}, res => {
-				this.goods.picture = this.img(this.item.productImg)
-				this.genSkuTree(res.skuList, res.productItemVos, res.price)
-			    console.log(this.sku)
-			})
-		}
+                let newSku = this.$refs.vanSku.getSkuData()
+				this.$emit('skuChange', newSku)
+				// this.post('/cart/updateSku', {cartItemId: this.item.cartItemId, productItemId: newSku.selectedSkuComb.id, count: newSku.selectedNum}, res => {
+                //     res.cartItemId = this.item.cartItemId
+                //     res.consumerId = this.item.consumerId
+				// 	this.item = res
+                //     this.item.count = newSku.selectedNum
+                //     this.$emit('update:item', this.item)
+				// 	this.showSku = false
+                // })
+				this.showSku = false
+			}
+        }
 	}
 </script>
 

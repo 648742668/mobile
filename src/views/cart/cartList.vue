@@ -11,7 +11,8 @@
                           checked-color="#ee0a24"
                           label-disabled>
                 <cart-item :item="item"
-                            @changeCount="changeCount(item)">
+                           @changeCount="changeCount(item)"
+                           @skuChange="skuChange($event, item)">
                 </cart-item>
             </van-checkbox>
         </van-checkbox-group>
@@ -23,6 +24,7 @@
                           class="cartItem"
                           label-disabled>
                 <cart-item :item="item"
+
                            @changeCount="changeCount(item)">
                 </cart-item>
             </van-checkbox>
@@ -78,12 +80,15 @@
             }
         },
         created() {
-            this.get(this.url.getCart,{userId: this.$store.getters.GET_CONSUMER.id, categories: this.category}, res => {
-            	// console.log(res)
-            	this.cart = res.reverse()
-            })
+            this.getData()
 		},
         methods: {
+			getData() {
+				this.get(this.url.getCart,{userId: this.$store.getters.GET_CONSUMER.id, categories: this.category}, res => {
+					// console.log(res)
+					this.cart = res.reverse()
+				})
+            },
 			selectAll() {
 				if(this.select) {
 					if(this.edit) {
@@ -100,6 +105,7 @@
                 }
             },
 			checkChange() {
+				console.log(this.cart)
 				this.totalPrice = 0.00
 				for(let i = 0; i < this.checked.length; i++) {
 					for (let j = 0; j < this.cart.length; j++) {
@@ -141,6 +147,15 @@
                     	cartselectedItem: this.checked
                     }
                 })
+            },
+			skuChange(newSku, item) {
+				console.log(newSku)
+				console.log(item)
+				this.checked = []
+                this.editChecked = []
+				this.post('/cart/updateSku', {cartItemId: item.cartItemId, productItemId: newSku.selectedSkuComb.id, count: newSku.selectedNum}, res => {
+					this.getData()
+				})
             }
         },
 	}

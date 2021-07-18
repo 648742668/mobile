@@ -113,12 +113,20 @@
 				}
             },
 			detail(orderId) {
-                this.$router.push({
-                    path: '/orderDetail',
-                    query: {
-                        orderId: orderId
-                    }
-                })
+				this.$router.push({
+					path: '/orderDetail',
+					query: {
+						orderId: orderId
+					}
+				})
+				// this.get('order/getOrderDetail', {orderId: orderId}, res => {
+				// 	this.$router.push({
+				// 		path: '/orderDetail',
+				// 		query: {
+				// 			order: res
+				// 		}
+				// 	})
+                // })
             },
 			checkout(orderId) {
 		    	console.log(orderId)
@@ -141,7 +149,6 @@
 			},
 			buyAgain(orderId) {
 				this.post('/order/buyAgain', {orderId: orderId}, res => {
-					this.onClickLeft()
 				})
 			},
 			goToComment(orderId) {

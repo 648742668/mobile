@@ -3,14 +3,14 @@
     <div class="head">
       <van-icon
           @click="setting"
-          style="float: right;margin-right: 5vw"
+          style="float: right;margin-right: 20px; margin-top: 40px"
           name="setting-o"
-          size="20"/>
-      <van-icon
-          @click="login"
-          style="float: right;margin-right: 8vw"
-          size="20"
-          name="user-circle-o" />
+          size="28"/>
+<!--      <van-icon-->
+<!--          @click="login"-->
+<!--          style="float: right;margin-right: 8vw"-->
+<!--          size="20"-->
+<!--          name="user-circle-o" />-->
     </div>
     <div
         class="main"
@@ -64,11 +64,11 @@ export default {
 <style scoped lang="less">
 .head{
   width: 100vw;
-  height: 5vh;
+  height: 25px;
 }
 .main{
   display: flex;
-  height: 15vw;
+  height: 50px;
   line-height: 15vw;
   .title{
     margin-left: 3vw;

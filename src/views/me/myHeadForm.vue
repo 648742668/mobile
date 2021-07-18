@@ -3,13 +3,13 @@
     <div class="head">
       <van-icon
           @click="setting"
-          style="float: right;"
+          style="float: right;margin-right: 5vw"
           name="setting-o"
-          size="25"/>
+          size="20"/>
       <van-icon
           @click="login"
-          style="float: right;margin-right: 5vw"
-          size="25"
+          style="float: right;margin-right: 8vw"
+          size="20"
           name="user-circle-o" />
     </div>
     <div

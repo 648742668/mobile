@@ -1,5 +1,14 @@
 <template>
   <div>
+    <van-nav-bar
+        title="用户注册"
+        left-arrow
+        :border="false"
+        @click-left="$router.back()">
+      <van-icon slot="left" size="25px"
+                color="#9E9999"
+                name="arrow-left"/>
+    </van-nav-bar>
     <van-form
         ref="signForm"
         class="signForm"

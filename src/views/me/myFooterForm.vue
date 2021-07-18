@@ -4,7 +4,7 @@
         v-if="showButton"
         class="button"
         plain
-        style="background: red"
+        style="background: red;margin-top: 50px"
         @click="exit"
         type="info"
         round

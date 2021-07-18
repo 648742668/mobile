@@ -1,5 +1,14 @@
 <template>
   <div>
+    <van-nav-bar
+        title="邮箱验证"
+        left-arrow
+        :border="false"
+        @click-left="$router.back()">
+      <van-icon slot="left" size="25px"
+                color="#9E9999"
+                name="arrow-left"/>
+    </van-nav-bar>
     <div id="top">
       <van-image
           round
@@ -26,16 +35,18 @@
             v-model="form.code"
             center
             clearable
-            label="邮箱验证码"
-            placeholder="请输入邮箱验证码"
-        >
+            label="验证码"
+            label-width="55px"
+            placeholder="请输入验证码">
+          <template #button>
+            <van-button
+                native-type="button"
+                style="border: none;background:#50D3C1;color: white"
+                @click.self="sendCode"
+                size="small" >发送验证码
+            </van-button>
+          </template>
         </van-field>
-        <van-button
-            class="send"
-            @click="sendCode"
-            size="samll"
-            type="info">发送验证码
-        </van-button>
       </div>
       <van-button
           class="button"
@@ -43,6 +54,7 @@
           :disabled="nextShow"
           type="info"
           round
+          style="background: #50D3C1"
           @click="save"
           size="small"
       >下一步
@@ -91,14 +103,12 @@ export default {
   },
   methods: {
     save() {
-      console.log("点击下一步")
       if (this.form.code.length != 6){
         Toast.fail('请输入正确的验证码');
         return
       }
       this.post(this.url.pwdByEmail,
           {
-            kind: 2,
             username: this.form.username,
             code: this.form.code
           },

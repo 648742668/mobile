@@ -1,5 +1,14 @@
 <template>
   <div>
+    <van-nav-bar
+        title="用户登录"
+        left-arrow
+        :border="false"
+        @click-left="$router.back()">
+      <van-icon slot="left" size="25px"
+                color="#9E9999"
+                name="arrow-left"/>
+    </van-nav-bar>
     <div id="top">
       <van-image
           round
@@ -40,14 +49,18 @@
           </van-button>
         </div>
       </van-form>
-      <van-form class="myform" v-if="!show" @submit="login">
+      <van-form class="myform" v-if="!show" @submit="loginByEmail">
         <van-field
             v-model="form.username"
             name="用户名"
             clearable
             @blur="checkImg"
-            placeholder="用户名/手机号"
-            :rules="this.rules.username">
+            placeholder="用户名"
+            :rules="[         {required: true, message: '请填写用户名'},
+          {
+            pattern: /^[a-zA-Z]\w{0,50}$|^1([38][0-9]|4[5-9]|5[0-3,5-9]|66|7[0-8]|9[89])[0-9]{8}$/,
+            message: '请输入正确的用户名'
+          }]">
           <template slot="left-icon">
             <van-image
                 style="width: 25px;;margin-right: 38px"
@@ -58,13 +71,16 @@
             v-model="form.code"
             center
             clearable
-            @click="sendCode"
             label="验证码"
             label-width="55px"
-            placeholder="请输入验证码"
-        >
+            placeholder="请输入验证码">
           <template #button>
-            <van-button style="background: red;border: none" size="small" type="info">发送验证码</van-button>
+            <van-button
+                native-type="button"
+                style="background: red;border: none"
+                @click.self="sendCode"
+                size="small" type="info">发送验证码
+            </van-button>
           </template>
         </van-field>
         <div style="margin: 16px;">
@@ -73,7 +89,7 @@
               icon="arrow"
               class="submit"
               block
-              :disabled="(this.form.password === '' || this.form.username ==='')"
+              :disabled="(this.form.code === '' || this.form.username ==='')"
               type="info"
               native-type="submit">登录
           </van-button>
@@ -126,26 +142,13 @@
 </template>
 
 <script>
-import {Notify} from 'vant';
+import {Notify, Toast} from 'vant';
 import SwitchPasswordType from "@/components/password/switchPasswordType";
 import {IMG_URL} from "@/config/config";
 
 export default {
   name: "loginForm",
   components: {SwitchPasswordType, [Notify.Component.name]: Notify.Component,},
-  props: {
-    path: {
-      type: String,
-      default: '/'
-    },
-    func: {
-      type: Function,
-      default: () => {
-        return obj => {
-        }
-      }
-    }
-  },
   created() {
   },
   data() {
@@ -153,6 +156,8 @@ export default {
     return {
       url: {
         login: module + '/login',
+        sendEmail: module + '/sendEmail',
+        loginByEmail: module + '/loginByEmail'
       },
       show: true,
       kind: 1,
@@ -172,7 +177,7 @@ export default {
       },
       rules: {
         username: [
-          {required: true, message: '请填写用户名/手机号', trigger: 'blur'},
+          {required: true, message: '请填写用户名/手机号'},
           {
             pattern: /^[a-zA-Z]\w{0,50}$|^1([38][0-9]|4[5-9]|5[0-3,5-9]|66|7[0-8]|9[89])[0-9]{8}$/,
             message: '请输入正确的用户名/手机号'
@@ -186,7 +191,7 @@ export default {
   },
   methods: {
     login() {
-      this.get(this.url.login, {username: this.form.username, password: this.form.password}, response => {
+      this.post(this.url.login, {username: this.form.username, password: this.form.password}, response => {
         Notify({type: 'success', message: '登录成功', duration: 500,});
         this.$store.commit('SET_TOKEN', response.token)
         this.$store.commit('SET_CONSUMER', response.consumer)
@@ -210,14 +215,39 @@ export default {
         }
       }
     },
+    loginByEmail() {
+      if (this.form.code.length != 6) {
+        Toast.fail('请输入正确的验证码');
+        return
+      }
+      this.post(this.url.loginByEmail,
+          {
+            username: this.form.username,
+            code: this.form.code
+          },
+          response => {
+            Notify({type: 'success', message: '登录成功', duration: 500,});
+            this.$store.commit('SET_TOKEN', response.token)
+            this.$store.commit('SET_CONSUMER', response.consumer)
+            this.imgUrl = require('../../assets/login/login.png')
+            if (this.$store.getters.GET_CHANGEPWD === '-1') {
+              this.$router.push({
+                path: '/me'
+              })
+            } else {
+              this.$router.back()
+            }
+          })
+    },
     sendCode() {
-      if (this.form.username.length<=0){
+      this.form.code = ''
+      if (this.form.username.length <= 0) {
         Toast.fail("请输入用户名")
         return
       }
       this.nextShow = false
-      this.post(this.url.sendEmail, {username: this.form.username,kind: 2}, response => {
-        if(response){
+      this.post(this.url.sendEmail, {username: this.form.username, kind: 1}, response => {
+        if (response) {
           Toast.success("邮件发送成功")
         }
       })

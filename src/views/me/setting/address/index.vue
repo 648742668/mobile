@@ -4,8 +4,11 @@
       <van-nav-bar
           title="地址管理"
           left-arrow
-          @click-left="onClickLeft"
-      />
+          @click-left="onClickLeft">
+        <van-icon slot="left" size="25px"
+                  color="#9E9999"
+                  name="arrow-left"/>
+      </van-nav-bar>
     </div>
     <div id="main">
       <van-address-list
@@ -20,7 +23,6 @@
 </template>
 
 <script>
-
 export default {
   name: "addressList",
   data(){

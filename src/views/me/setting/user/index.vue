@@ -4,8 +4,11 @@
       <van-nav-bar
           title="个人信息"
           left-arrow
-          @click-left="onClickLeft"
-      />
+          @click-left="onClickLeft">
+      <van-icon slot="left" size="25px"
+                color="#9E9999"
+                name="arrow-left"/>
+      </van-nav-bar>
     </div>
     <div id="main">
       <div
@@ -14,18 +17,17 @@
         <span class="title">头像</span>
         <van-image
             class="img"
-            round
+            radius="10px"
             width="15vw"
             height="15vw"
             :src="imgUrl">
         </van-image>
-        <van-icon size="20px" class="arrow" style="margin-top: 18px" name="arrow"/>
       </div>
       <div
           class="raw"
           @click="changeUserName">
         <span class="title">用户名</span>
-        <span style="float:right;">{{ this.form.username }}</span>
+        <span style="float:right;margin-right: 20px">{{ this.form.username }}</span>
       </div>
       <div
           class="raw"

@@ -128,6 +128,7 @@
                 })
             }
             this.get(basePrefix + "/getOne", {id: this.id}, obj => {
+                console.log(obj)
                 let pics = obj.pics.split(", ")
                 this.images.push(obj.img)
                 this.goods.picture = IMG_URL + obj.img
@@ -189,7 +190,7 @@
             },
             onBuyClicked(skuData) {
                 console.log(skuData)
-                this.$router.push({path:"/ckeckout",query:{piid:skuData.selectedSkuComb.id,count:skuData.selectedNum}})
+                this.$router.push({path:"/checkout",query:{piid:skuData.selectedSkuComb.id,count:skuData.selectedNum}})
                 this.showSku = false
             }
             ,

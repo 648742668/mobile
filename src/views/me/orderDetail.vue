@@ -163,9 +163,14 @@
 				})
 			},
 			cancel() {
-				this.post('/order/cancel', {orderId: this.order.orderId}, res => {
-					this.onClickLeft()
-				})
+                this.$dialog.confirm({
+                    title: '提示',
+                    message: '确认商品已经送达吗？',
+                }).then(() => {
+                    this.post('/order/cancel', {orderId: this.order.orderId}, res => {
+                        this.onClickLeft()
+                    })
+                })
 			},
 			buyAgain() {
 				this.post('/order/buyAgain', {orderId: this.order.orderId}, res => {

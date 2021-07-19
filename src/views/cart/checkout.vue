@@ -76,7 +76,7 @@
                     {name: '微信', disabled: true}
                 ],
 				show: false,
-				consumerId: 1,
+				consumerId: this.$store.getters.GET_CONSUMER.id,
 
 				piid: null,
 				count: null,
@@ -148,8 +148,10 @@
 				this.count = this.$route.query.count
 				this.toAddressPage.query.piid = this.piid
 				this.toAddressPage.query.count = this.count
-                this.get('/cart/productCheckout', {consumerId: this.consumerId, productItemId: piid}, res => {
+                this.get('/cart/productCheckout', {consumerId: this.consumerId, productItemId: this.piid}, res => {
 					this.cartItems.push(res.item)
+                    this.cartItems[0].count = this.count
+                    this.changeCount()
 					let addressList = res.addressList
                     if(addressId) {
 						for (let i = 0; i < addressList.length; i++) {

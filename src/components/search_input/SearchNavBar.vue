@@ -1,7 +1,7 @@
 <template>
     <div class="nav-bar">
         <van-search
-                @focus="goSearch"
+                @click="goSearch"
                 class="van-search"
                 v-model="value"
                 shape="round"

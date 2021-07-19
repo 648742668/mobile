@@ -10,7 +10,7 @@
                 {{goods.price}}</div>
             <div class="goods-other">
                 <span class="goods-favor left">{{goods.favor|getFavor}}</span>
-                <span class="goods-pay right">{{goods.payCount|getPayCount}}</span>
+                <span class="goods-pay right">{{goods.pay_count|getPayCount}}</span>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
                         title:"泰山原浆啤酒干啤10度全麦芽酿造高发酵度啤酒整箱330ml*24听 24听",
                         price:9999,
                         favor:3200,
-                        payCount:11111
+                        pay_count:11111
                     }
                 },
                 type:Object

@@ -80,11 +80,11 @@ export default {
         {name: 'foot',message: '足迹', img: 'clock-o', to: '/footPrint'},
       ]
       this.myItemList = [
-        {name:'noPay',message: '待付款', img: 'balance-list-o', to: '/forgetPwd',badge:null},
-        {name:'waitProduct',message: '待收货', img: 'logistics', to: '/forgetPwd',badge:null},
-        {name:'noAssess',message: '评价', img: 'chat-o', to: '/forgetPwd',badge:null},
-        {name:'finish',message: '已完成', img: 'completed', to: '/forgetPwd',badge:null},
-        {name:'canel',message: '已取消', img: 'failure', to: '/forgetPwd',badge:null},
+        {name:'noPay',message: '待付款', img: 'balance-list-o', to: {path: '/order', query: {active: 1}},badge:null},
+        {name:'waitProduct',message: '待收货', img: 'logistics', to: {path: '/order', query: {active: 2}},badge:null},
+        {name:'noAssess',message: '评价', img: 'chat-o', to: {path: '/order', query: {active: 3}},badge:null},
+        {name:'finish',message: '已完成', img: 'completed', to: {path: '/order', query: {active: 4}},badge:null},
+        {name:'canel',message: '已取消', img: 'failure', to: {path: '/order', query: {active: 5}},badge:null},
       ]
       this.get(this.url.getOtherDate,{id:this.$store.getters.GET_CONSUMER.id},
       response=>{

@@ -189,7 +189,7 @@
             },
             onBuyClicked(skuData) {
                 console.log(skuData)
-                this.$router.push({path:"/",query:{piid:skuData.selectedSkuComb.id,count:skuData.selectedNum}})
+                this.$router.push({path:"/ckeckout",query:{piid:skuData.selectedSkuComb.id,count:skuData.selectedNum}})
                 this.showSku = false
             }
             ,

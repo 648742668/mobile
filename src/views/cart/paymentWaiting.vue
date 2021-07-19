@@ -1,15 +1,16 @@
 <template>
     <div class="waitingContainer">
-        <van-nav-bar
-                title="支付中"
-                left-text="返回"
-                left-arrow
-                @click-left="goback"/>
+        <van-nav-bar title="支付中"/>
         <div class="innerContainer">
             <van-loading color="#1989fa" size="80px"/>
         </div>
         <div class="text">等待支付完成...</div>
+        <div style="width: 100%;margin-top: 50px">
+            <van-button type="danger" round plain size="medium" style="width: 300px; margin: 0 50px"
+                @click="goback">取消支付</van-button>
+        </div>
     </div>
+
 </template>
 
 <script>
@@ -22,10 +23,11 @@
         },
         methods: {
 			goback() {
+				let orderId = this.$route.query.orderId
 				this.$router.push({
-					path: '/order',
+					path: '/orderDetail',
 					query: {
-						active: 0
+						orderId: orderId
 					}
 				})
             }

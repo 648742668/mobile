@@ -191,7 +191,7 @@ export default {
   },
   methods: {
     login() {
-      this.post(this.url.login, {username: this.form.username, password: this.form.password}, response => {
+      this.get(this.url.login, {username: this.form.username, password: this.form.password}, response => {
         Notify({type: 'success', message: '登录成功', duration: 500,});
         this.$store.commit('SET_TOKEN', response.token)
         this.$store.commit('SET_CONSUMER', response.consumer)

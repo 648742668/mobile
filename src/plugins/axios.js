@@ -84,7 +84,7 @@ const request = (url, method, params, callback) => {
       Notify(response.data.message)
     }
   }).catch(error => {
-    Notify(err)
+    Notify(error)
   }).finally(() => {
   })
 }

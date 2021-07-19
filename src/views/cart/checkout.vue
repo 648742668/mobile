@@ -9,7 +9,7 @@
         </van-sticky>
         <van-cell icon="location-o"
                   is-link
-                  to="index"
+                  :to="toAddressPage"
                   style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;"
                   :label="addr.address">
             <template #title>
@@ -65,11 +65,9 @@
 </template>
 
 <script>
-	import cartItem from "./components/cartItem";
 
 	export default {
 		name: "checkout",
-		components: {cartItem},
 		data() {
 			return {
 				payMethod: [
@@ -91,13 +89,25 @@
 					phone: '',
 					isDefault: false
 				},
+				toAddressPage: {
+					path: '/address',
+                    query: {
+
+                    }
+                },
 
 				total: 0,
 			}
 		},
 		methods: {
 			onClickLeft() {
-				this.$router.go(-1)
+				let flag = this.$route.query.addressId
+                if(flag) {
+					this.$router.go(-2)
+                } else {
+                	this.$router.back()
+                }
+
 			},
 			getSku(item) {
 				let str = ''
@@ -127,13 +137,32 @@
 			}
 		},
 		created() {
+			let addressId = this.$route.query.addressId
 			this.cartItems = []
+            if(addressId) {
+				this.toAddressPage.query.addressId = addressId
+            }
 			if (this.$route.query.piid) {
 				this.piid = this.$route.query.piid
 				this.count = this.$route.query.count
+				this.toAddressPage.query.piid = this.piid
+				this.toAddressPage.query.count = this.count
                 this.get('/cart/productCheckout', {consumerId: this.consumerId, productItemId: piid}, res => {
 					this.cartItems.push(res.item)
 					let addressList = res.addressList
+                    if(addressId) {
+						for (let i = 0; i < addressList.length; i++) {
+							let addr = addressList[i]
+							if (addr.id == addressId) {
+								this.addr.id = addr.id
+								this.addr.address = addr.province + addr.city + addr.county + addr.address
+								this.addr.name = addr.recvName
+								this.addr.phone = addr.recvPhone
+								this.addr.isDefault = addr.firstPick === 1
+								return
+							}
+						}
+                    }
 					for (let i = 0; i < addressList.length; i++) {
 						let addr = addressList[i]
 						if (addr.firstPick === 1) {
@@ -154,11 +183,24 @@
                 })
 			} else {
 				this.cartItems = this.$route.query.cartselectedItem
+				this.toAddressPage.query.cartselectedItem = this.cartItems
 				this.get('/cart/cartCheckout', {consumerId: this.consumerId, cartItemIds: this.cartItems}, res => {
-					// console.log(res)
 					this.cartItems = res.cartItems
 					this.changeCount()
 					let addressList = res.addressList
+					if(addressId) {
+						for (let i = 0; i < addressList.length; i++) {
+							let addr = addressList[i]
+							if (addr.id == addressId) {
+								this.addr.id = addr.id
+								this.addr.address = addr.province + addr.city + addr.county + addr.address
+								this.addr.name = addr.recvName
+								this.addr.phone = addr.recvPhone
+								this.addr.isDefault = addr.firstPick === 1
+								return
+							}
+						}
+					}
 					for (let i = 0; i < addressList.length; i++) {
 						let addr = addressList[i]
 						if (addr.firstPick === 1) {

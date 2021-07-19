@@ -6,3 +6,4 @@ Vue.prototype.img = (path) => {
 	return IMG_URL + path
 }
 
+ 

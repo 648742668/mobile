@@ -15,7 +15,7 @@
             <div class="title">
                 {{ item.productName }}
             </div>
-            <div class="sku" @click="changeSku">
+            <div class="sku" @click="showSku = true">
                 {{ getSku() }}
                 <van-icon name="arrow-down"/>
             </div>
@@ -31,12 +31,32 @@
                              @change="changeCount"/>
             </div>
         </div>
+
+        <van-sku
+                v-model="showSku"
+                :sku="sku"
+                :goods="goods"
+                :goods-id="id"
+                :hide-stock="false"
+                @buy-clicked="confirmSku"
+                :show-add-cart-btn="false"
+                buy-text="确定"/>
     </div>
 </template>
 
 <script>
+    import {SkuElMixin} from '../../../common/mixin'
 	export default {
 		name: "cartItem",
+        mixins: [SkuElMixin],
+        data() {
+			return {
+				showSku: false,
+		        sku: {},
+                goods: {},
+                id: null,
+            }
+        },
 		props: {
 			item: {
                 type: Object,
@@ -52,13 +72,20 @@
                 }
 				return str.substr(0, str.length-1)
             },
-			changeSku() {
-				console.log('TODO')
-            },
             changeCount() {
 				this.$emit('changeCount')
+            },
+			confirmSku() {
+				// TODO
             }
-        }
+        },
+        created() {
+			this.get('/mb-product/getOne', {id: this.item.productId}, res => {
+				this.goods.picture = this.img(this.item.productImg)
+				this.genSkuTree(res.skuList, res.productItemVos, res.price)
+			    console.log(this.sku)
+			})
+		}
 	}
 </script>
 

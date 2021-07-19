@@ -11,15 +11,15 @@
             <cart-list :edit="edit" ref="cartList" style="height: calc(100vh - 150px); overflow: scroll">
             </cart-list>
 
-            <van-dialog v-model="show" title="选择收货地址" show-cancel-button
-                        confirm-button-text="提交订单">
-                <van-picker
-                        @confirm="submit"
-                        :columns="addrs"
-                        item-height="70px"
-                        class="picker">
-                </van-picker>
-            </van-dialog>
+<!--            <van-dialog v-model="show" title="选择收货地址" show-cancel-button-->
+<!--                        confirm-button-text="提交订单">-->
+<!--                <van-picker-->
+<!--                        @confirm="submit"-->
+<!--                        :columns="addrs"-->
+<!--                        item-height="70px"-->
+<!--                        class="picker">-->
+<!--                </van-picker>-->
+<!--            </van-dialog>-->
         </div>
 
     </div>

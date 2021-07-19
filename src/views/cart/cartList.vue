@@ -78,7 +78,6 @@
             }
         },
         created() {
-			console.log(this.category)
             this.get(this.url.getCart,{userId: this.$store.getters.GET_CONSUMER.id, categories: this.category}, res => {
             	// console.log(res)
             	this.cart = res.reverse()

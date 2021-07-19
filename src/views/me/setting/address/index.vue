@@ -48,6 +48,8 @@ export default {
   },
   methods:{
     getData(){
+      let addressId = this.$route.query.addressId
+
       this.get(this.url.getByConsumerId,{id:this.id},response=>{
         for (let i = 0 ; i< response.length;i++){
           this.list.push({
@@ -56,9 +58,14 @@ export default {
             tel:response[i].recvPhone,
             address: response[i].province +response[i].city +response[i].county +response[i].address
           })
+          if(addressId && addressId == response[i].id) {
+            this.chosenAddressId = response[i].id
+          }
           if (response[i].firstPick === 1){
             this.list[i].isDefault=true
-            this.chosenAddressId = response[i].id
+            if(!addressId) {
+              this.chosenAddressId = response[i].id
+            }
           }else{
             this.list[i].isDefault=false
           }
@@ -66,7 +73,18 @@ export default {
       })
     },
     onClickLeft() {
-      this.$router.back();
+      let query = this.$route.query
+      if(query.cartselectedItem || query.piid) {
+        console.log(this.chosenAddressId)
+        query.addressId = this.chosenAddressId
+        this.$router.push({
+          path:'/checkout',
+          query: query
+        })
+      } else {
+        this.$router.back()
+      }
+
     },
     onEdit(item, index){
       this.$router.push({

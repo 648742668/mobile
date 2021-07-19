@@ -70,7 +70,7 @@
             },
             getImages() {
                 let images = []
-                let temp = this.comment.images.split(",")
+                let temp = this.comment.images.split(", ")
                 for (let i = 0; i < 6 && temp.length; i++) {
                     if (temp[i]) {
                         images.push(temp[i])

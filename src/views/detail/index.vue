@@ -128,7 +128,7 @@
                 })
             }
             this.get(basePrefix + "/getOne", {id: this.id}, obj => {
-                let pics = obj.pics.split(",")
+                let pics = obj.pics.split(", ")
                 this.images.push(obj.img)
                 this.goods.picture = IMG_URL + obj.img
                 this.images.push(...pics)
